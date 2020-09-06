@@ -10,9 +10,12 @@
     "@types/node": "^12.12.55",
     "@types/react": "^16.9.49",
     "@types/react-dom": "^16.9.8",
+    "fiber": "^1.0.4",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
+    "react-tag-autocomplete": "^6.1.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
@@ -35,5 +38,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }

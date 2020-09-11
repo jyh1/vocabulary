@@ -19,7 +19,8 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.3",
     "react-tag-autocomplete": "^6.1.0",
-    "typescript": "^3.7.5"
+    "typescript": "^3.7.5",
+    "typescript-parsec": "^0.3.2"
   },
   "scripts": {
     "start": "react-scripts start",

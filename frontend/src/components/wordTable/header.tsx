@@ -4,7 +4,8 @@ import Tooltip from '../tooltip/tooltip'
 import Icon from '../icon'
 import Tags from '../tags/tags'
 import * as T from '../../types'
-import { saveWord } from '../../storage/service'
+import {parseWordPieces} from '../../parser/parser'
+import { isNull } from 'util'
 
 
 type Props = {addWord: AddWord}
@@ -41,8 +42,19 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
     const addTag = (tag: T.Tag)=>{
         setRtags([...rtags, tag.name])
     }
+    const parenShortcut = (e: React.KeyboardEvent) =>{
+        if (e.keyCode===27){
+            const idx = contRef.current.selectionStart
+            if (!isNull(idx)){
+                const text = contRef.current.value
+                contRef.current.value=text.slice(0, idx) + "()" + text.slice(idx)
+                contRef.current.selectionStart = idx + 1
+                contRef.current.selectionEnd = idx + 1
+            }
+        }
+    }
     const create = () => {
-        const content = [contRef.current.value]
+        const content = parseWordPieces(contRef.current.value)
         const description = descRef.current.value
         addWord({content, description, tags: rtags})
         .then(()=>{contRef.current.value=""; descRef.current.value=""})
@@ -56,7 +68,12 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
             />
 
             <div className="label">Word</div>
-            <input ref={contRef} type="text" className="word-input"/>
+            <input 
+                onKeyDown={parenShortcut} 
+                ref={contRef} 
+                type="text" 
+                className="word-input"
+            />
             <div className="label">Definition</div>
             <textarea ref={descRef}/>
             <span className="save" onClick={create}><Icon icon="save"/></span>

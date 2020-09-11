@@ -1,47 +1,65 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import './header.scss'
 import Tooltip from '../tooltip/tooltip'
 import Icon from '../icon'
 import Tags from '../tags/tags'
+import * as T from '../../types'
+import { saveWord } from '../../storage/service'
 
 
-type Props = {}
+type Props = {addWord: AddWord}
 
-export default ({}: Props) => {
+type AddWord = (w: T.WordInfo)=>Promise<void>
+
+export default ({addWord}: Props) => {
     return(
         <div className="header">
-            <Buttons/>
+            <Buttons addWord={addWord}/>
             <Filter/>
         </div>
     )
 }
 
-const Buttons = () =>{
+const Buttons = ({addWord}: {addWord: AddWord}) =>{
     return(
         <div className="header-buttons">
             <Tooltip>
                 <div className="add"><Icon icon="plus"/></div>
-                <NewWord/>
+                <NewWord addWord={addWord}/>
             </Tooltip>
         </div>
     )
 }
 
-const NewWord = () => {
-    const rtags = ["n5", "boxing"]
+const NewWord = ({addWord}: {addWord: AddWord}) => {
+    const [rtags, setRtags] = useState([] as string[])
+    const descRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>
+    const contRef = useRef() as React.MutableRefObject<HTMLInputElement>
+    const delTag = (i:number) =>{
+        setRtags(rtags.filter((_, j)=>j!==i))
+    }
+    const addTag = (tag: T.Tag)=>{
+        setRtags([...rtags, tag.name])
+    }
+    const create = () => {
+        const content = [contRef.current.value]
+        const description = descRef.current.value
+        addWord({content, description, tags: rtags})
+        .then(()=>{contRef.current.value=""; descRef.current.value=""})
+    }
     return(
         <div className="newword-form">
             <Tags 
                 tags={rtags}
-                onDelete={()=>{}}
-                onAddition={()=>{}}
+                onDelete={delTag}
+                onAddition={addTag}
             />
 
             <div className="label">Word</div>
-            <input type="text" className="word-input"/>
+            <input ref={contRef} type="text" className="word-input"/>
             <div className="label">Definition</div>
-            <textarea/>
-            <span className="save"><Icon icon="save"/></span>
+            <textarea ref={descRef}/>
+            <span className="save" onClick={create}><Icon icon="save"/></span>
         </div>
     )
 }

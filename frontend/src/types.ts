@@ -4,12 +4,15 @@ export type WordPiece = Kanji | string
 
 export type WordPieces = WordPiece[]
 
-export type Word = {
-      content: WordPieces
-    , id: number
-    , description: string
-    , tags: string[]
+export type WordInfo = {
+    content: WordPieces
+  , description: string
+  , tags: string[]
 }
+
+export type Word = WordInfo & {reviewtime: number, lastreview: Date}
+
+export type KeyValue<T> = {key: string, value: T}
 
 export type Tag = {id: string, name: string}
 

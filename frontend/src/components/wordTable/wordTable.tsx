@@ -4,14 +4,24 @@ import Word from '../word'
 import Tags from '../tags/tags'
 import Header from './header'
 import './wordTable.scss'
+import * as S from '../../storage/service'
 
+type Props = {}
 
-type Props = {words: T.Word[]}
+export default ({}: Props) => {
+    const [words, setWords] = useState([] as T.KeyValue<T.Word>[])
+    const [query, setQuery] = useState("")
+    useEffect(()=>{
+        S.listWords().then(ws => setWords(ws))
+    }, [])
 
-export default ({words}: Props) => {
+    const addWord = (w: T.WordInfo) => {
+        return S.addWord(w).then(wi => setWords([wi, ...words]))
+    }
+
     return(
         <div className="vocabulary">
-            <Header/>
+            <Header addWord={addWord}/>
             <table className="word-table">
                 <thead>
                     <tr>
@@ -21,7 +31,7 @@ export default ({words}: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {words.map((w, i) => (<Entry word={w} key={i}/>))}
+                    {words.map((w) => (<Entry word={w.value} key={w.key}/>))}
                 </tbody>
             </table>
         </div>

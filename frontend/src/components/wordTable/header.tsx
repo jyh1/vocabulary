@@ -54,10 +54,14 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
         }
     }
     const create = () => {
-        const content = parseWordPieces(contRef.current.value)
-        const description = descRef.current.value
-        addWord({content, description, tags: rtags})
-        .then(()=>{contRef.current.value=""; descRef.current.value=""})
+        try{
+            const content = parseWordPieces(contRef.current.value)
+            const description = descRef.current.value
+            addWord({content, description, tags: rtags})
+            .then(()=>{contRef.current.value=""; descRef.current.value=""})
+        } catch(e){
+            console.log(e)
+        }
     }
     return(
         <div className="newword-form">
@@ -73,6 +77,7 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
                 ref={contRef} 
                 type="text" 
                 className="word-input"
+                placeholder="e.g. 見(み)る. Press [Esc] to insert ()"
             />
             <div className="label">Definition</div>
             <textarea ref={descRef}/>

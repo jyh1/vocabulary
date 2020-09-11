@@ -1,9 +1,7 @@
-.vocabulary{
-    width: 100%;
-}
 
 .word-table{
     width: 100%;
+    table-layout: fixed;
     border-collapse: collapse;
 }
 
@@ -27,18 +25,18 @@
     padding-right: 4px;
 }
 
-.word-table td:first-child{
+.word-table th:first-child{
     width: 20%;
 }
 
-.word-table td:nth-child(2){
+.word-table th:nth-child(2){
     width: 50%;
-    overflow-x: hidden;
 }
 
-.word-table td:nth-child(3){
+.word-table th:nth-child(3){
     width: 30%;
 }
+
 
 .word-table tr:nth-child(even){
     background-color: #f2f2f2;

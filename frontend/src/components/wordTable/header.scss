@@ -56,6 +56,12 @@ $header-font-size: .875rem;
     background-color: #007bff;
 }
 
+.header-buttons .active .add i {
+    background-color: white;
+    color: #007bff;
+    border-color: #007bff;
+}
+
 
 .newword-form{
     border-radius: 5px;
@@ -79,6 +85,10 @@ $header-font-size: .875rem;
     border-radius: 4px;
     box-sizing: border-box;
     resize: vertical;
+}
+
+.newword-form .word-input.error{
+    background-color: #FFD2D2;
 }
 
 .newword-form .label{

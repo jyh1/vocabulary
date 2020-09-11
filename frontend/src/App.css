@@ -1,9 +1,7 @@
 .app{
   margin: auto;
-  width: 70%;
   min-width: 600px;
-  padding-top: 50px;
-  padding-bottom: 200px;
+  padding: 20px 12% 100px 12%;
   /* font-size: 6px; */
   line-height: 1.6;
   font-family: "游ゴシック", YuGothic, "ヒラギノ角ゴ Pro W3", "Hiragino Kaku Gothic Pro", Verdana, "メイリオ", Meiryo, Osaka, "ＭＳ Ｐゴシック", "MS PGothic", sans-serif;

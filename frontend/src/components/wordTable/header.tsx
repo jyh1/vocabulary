@@ -36,6 +36,7 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
     const [rtags, setRtags] = useState([] as string[])
     const descRef = useRef() as React.MutableRefObject<HTMLTextAreaElement>
     const contRef = useRef() as React.MutableRefObject<HTMLInputElement>
+    const [error, setError] = useState(false)
     const delTag = (i:number) =>{
         setRtags(rtags.filter((_, j)=>j!==i))
     }
@@ -52,6 +53,7 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
                 contRef.current.selectionEnd = idx + 1
             }
         }
+        setError(false)
     }
     const create = () => {
         try{
@@ -60,7 +62,7 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
             addWord({content, description, tags: rtags})
             .then(()=>{contRef.current.value=""; descRef.current.value=""})
         } catch(e){
-            console.log(e)
+            setError(true)
         }
     }
     return(
@@ -76,7 +78,7 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
                 onKeyDown={parenShortcut} 
                 ref={contRef} 
                 type="text" 
-                className="word-input"
+                className={error ? "word-input error" : "word-input"}
                 placeholder="e.g. 見(み)る. Press [Esc] to insert ()"
             />
             <div className="label">Definition</div>

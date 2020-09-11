@@ -53,7 +53,7 @@ const Entry = ({word}: {word: T.Word}) => {
         <tr>
             <td>{<Word ps={content}/>}</td>
             <td>{description}</td>
-            <td>
+            <td valign="top">
                 <Tags 
                     onAddition={onAddition}
                     onDelete={onDelete}

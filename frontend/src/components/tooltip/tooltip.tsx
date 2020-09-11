@@ -8,7 +8,9 @@ export default ({children}: Props)=>{
     const [active, setActive] = useState(false)
     return(
         <div className={active ? "tooltip-wrapper active": "tooltip-wrapper"}>
-            <div className="tooltip-ele" onClick={()=>setActive(!active)}>
+            <div 
+                className={active ? "tooltip-ele active" : "tooltip-ele"} 
+                onClick={()=>setActive(!active)}>
                 {ele}
             </div>
             <div className="tooltip-tooltip">

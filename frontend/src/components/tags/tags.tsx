@@ -2,6 +2,7 @@ import React from 'react'
 import ReactTags from 'react-tag-autocomplete'
 
 import {Tag} from '../../types'
+import Icon from '../icon'
 import './tags.scss'
 
 

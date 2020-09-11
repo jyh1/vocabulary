@@ -1,11 +1,9 @@
 $tag-font-size: 15px;
-$tag-padding: 0 20px 0 6px; 
 .word-tag{
     display: inline-block;
-    margin-right: 6px;
     margin-top: 7px;
     margin-bottom: 7px;
-    padding: $tag-padding;
+    padding: 0 2px 0 6px;
     border: 1px solid #D1D1D1;
     border-radius: 2px;
     font-size: $tag-font-size;
@@ -18,14 +16,14 @@ $tag-padding: 0 20px 0 6px;
 }
 
 .word-tag-del{
-    display: none;
-    margin-left: 4px;
+    visibility: hidden;
+    padding-left: 8px;
+    padding-right: 4px;
     cursor: pointer;
 }
 
 .word-tag:hover .word-tag-del{
-    display: inline-block;
-    position: absolute;
+    visibility: visible;
     color: red;
 }
 

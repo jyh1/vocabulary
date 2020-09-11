@@ -1,0 +1,18 @@
+.tooltip-wrapper{
+    position: relative;
+    display: inline-block;
+  }
+  
+  .tooltip-ele{
+  
+  }
+  
+  .tooltip-tooltip{
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+  }
+  
+  .tooltip-wrapper:hover .tooltip-tooltip, .tooltip-wrapper.active .tooltip-tooltip{
+    visibility: visible;
+  }

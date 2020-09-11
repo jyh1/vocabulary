@@ -11,5 +11,7 @@ export type Word = {
     , tags: string[]
 }
 
+export type Tag = {id: string, name: string}
+
 
 

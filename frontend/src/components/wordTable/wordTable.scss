@@ -10,8 +10,8 @@
 .word-table th{
     font-size: 20px;
     text-align: left;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-top: 6px;
+    padding-bottom: 6px;
     background-color: #4CAF50;
     color: white;
 }
@@ -23,7 +23,7 @@
 .word-table th, .word-table td{
     border: 1px solid #dddddd;
     text-align: left;
-    padding: 8px;
+    padding-left: 8px;
 }
 
 .word-table td:first-child{
@@ -40,55 +40,4 @@
 
 .word-table tr:nth-child(even){
     background-color: #f2f2f2;
-}
-
-.word-table tr:hover{
-    background-color: #ddd;
-}
-
-$tag-font-size: 15px;
-$tag-padding: 0 20px 0 6px; 
-.word-tag{
-    display: inline-block;
-    margin-right: 6px;
-    margin-bottom: 7px;
-    padding: $tag-padding;
-    border: 1px solid #D1D1D1;
-    border-radius: 2px;
-    background: #F1F1F1;
-    font-size: $tag-font-size;
-}
-
-.word-tag-del{
-    display: none;
-    margin-left: 4px;
-    cursor: pointer;
-}
-
-.word-tag:hover .word-tag-del{
-    display: inline-block;
-    position: absolute;
-    color: red;
-}
-
-.react-tags__selected {
-    display: inline;
-  }
-  
-
-.react-tags__search {
-    display: inline-block;
-  
-    /* match tag layout */
-    padding: 7px 2px;
-  
-    /* prevent autoresize overflowing the container */
-    max-width: 100%;
-}
-
-
-.react-tags__search-input{
-    font-size: $tag-font-size;
-    border: none;
-    padding: 3px 0 3px 0;
 }

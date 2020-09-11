@@ -1,7 +1,8 @@
 import React, {useState, useRef, useEffect} from 'react';
-import ReactTags from 'react-tag-autocomplete'
 import * as T from '../../types'
 import Word from '../word'
+import Tags from '../tags/tags'
+import Header from './header'
 import './wordTable.scss'
 
 
@@ -10,6 +11,7 @@ type Props = {words: T.Word[]}
 export default ({words}: Props) => {
     return(
         <div className="vocabulary">
+            <Header/>
             <table className="word-table">
                 <thead>
                     <tr>
@@ -26,41 +28,26 @@ export default ({words}: Props) => {
     )
 }
 
-type Tag = {id: string, name: string}
 
 const Entry = ({word}: {word: T.Word}) => {
     const {content, tags, description} = word
     const [rtags, setRtags] = useState(tags)
     const ref = useRef(null)
-    const onAddition = (tag: Tag) => {
+    const onAddition = (tag: T.Tag) => {
         setRtags([...rtags, tag.name])
     }
     const onDelete = (i:number) => {
         setRtags(rtags.filter((tag, index) => index !== i))
-    }
-
-    const TagComponent = ({ tag, onDelete}: {tag: Tag, onDelete: any}) => {
-        return (
-          <div className="word-tag">
-            {tag.name}
-            <span className="word-tag-del" onDoubleClick={onDelete}>✕</span>
-          </div>
-        )
     }
     return(
         <tr>
             <td>{<Word ps={content}/>}</td>
             <td>{description}</td>
             <td>
-                <ReactTags 
-                    ref={ref}
-                    tags={rtags.map(t=>({id: t, name: t}))}
-                    onDelete={onDelete}
+                <Tags 
                     onAddition={onAddition}
-                    allowNew={true}
-                    allowBackspace={false}
-                    tagComponent={TagComponent}
-                    autoResize={false}
+                    onDelete={onDelete}
+                    tags={rtags}
                 />
             </td>
         </tr>

@@ -25,7 +25,7 @@ const Buttons = ({addWord}: {addWord: AddWord}) =>{
     return(
         <div className="header-buttons">
             <Tooltip>
-                <div className="add"><Icon icon="plus"/></div>
+                <button className="add"><Icon icon="plus"/></button>
                 <NewWord addWord={addWord}/>
             </Tooltip>
         </div>
@@ -83,7 +83,7 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
             />
             <div className="label">Definition</div>
             <textarea ref={descRef}/>
-            <span className="save" onClick={create}><Icon icon="save"/></span>
+            <button className="save" onClick={create}><Icon icon="save"/></button>
         </div>
     )
 }

@@ -9,3 +9,7 @@
   word-break: normal;
 }
 
+button{
+  border: none;
+  padding: 0;
+}

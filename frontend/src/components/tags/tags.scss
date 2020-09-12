@@ -1,13 +1,19 @@
 $tag-font-size: 15px;
+$tag-color: rgb(32, 166, 249); 
+
+.react-tags{
+    color: $tag-color;
+}
+
 .word-tag{
     display: inline-block;
     margin-top: 7px;
     margin-bottom: 7px;
-    padding: 0 2px 0 6px;
+    margin-right: 7px;
+    padding: 0 5px 0 1px;
     border: 1px solid #D1D1D1;
     border-radius: 2px;
     font-size: $tag-font-size;
-    color: rgb(32, 166, 249);
     font-weight: bold;
 }
 
@@ -17,14 +23,15 @@ $tag-font-size: 15px;
 
 .word-tag-del{
     visibility: hidden;
-    padding-left: 8px;
-    padding-right: 4px;
+    padding-left: 4px;
+    font-weight: normal;
     cursor: pointer;
+    color: red;
+    user-select: none;
 }
 
 .word-tag:hover .word-tag-del{
     visibility: visible;
-    color: red;
 }
 
 .react-tags__selected {
@@ -43,10 +50,26 @@ $tag-font-size: 15px;
 }
 
 
+
 .react-tags__search-input{
     font-size: $tag-font-size;
     border: none;
-    padding: 5px 8px 5px 8px;
-    border-radius: .2rem;
+    color: $tag-color;
+    font-weight: bold;
+}
+
+.react-tags__search-input:focus{
+    outline: none;
+}
+
+.react-tags__search-wrapper::before{
+    content: "#";
+    padding-left: 1px;
+}
+
+.react-tags__search-wrapper{
     border: 1px solid #ced4da;
+    border-radius: .2rem;
+    font-weight: bold;
+    background-color: white;
 }

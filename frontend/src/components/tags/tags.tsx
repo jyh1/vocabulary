@@ -32,7 +32,8 @@ export default ({tags, onDelete, onAddition}: Props) => {
             allowNew={true}
             allowBackspace={false}
             tagComponent={TagComponent}
-            autoResize={false}
+            autoResize={true}
+            placeholderText="       "
         />
     )
 }

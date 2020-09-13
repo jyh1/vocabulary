@@ -57,10 +57,10 @@
     opacity: 0;
 }
 
-.word-table tr:hover{
+.word-table tbody > tr:hover{
     transform: scale(1, 1);
 }
 
-.word-table tr:hover::after {
+.word-table tbody > tr:hover::after {
     opacity: 1;
 }

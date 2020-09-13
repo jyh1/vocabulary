@@ -1,0 +1,35 @@
+.wordcard{
+    background: #EEDFDE;
+    padding: 20px 20px 20px 30px;
+    border-radius: 4px;
+    overflow-y: auto;
+    width: 600px;
+    margin: 0 auto;
+    .content{
+        display: block;
+        text-align: center;
+        font-size: 250%;
+    }
+    .tags{
+        margin-top: -15px;
+        color: rgb(32, 166, 249);
+        font-weight: bold;
+        margin-bottom: 10px;
+        span{
+            padding-right: 7px;
+        }
+        span::before{
+            content: "#";
+        }
+    }
+    .description{
+        padding: 0 10px 0 0;
+    }
+    .description p{
+        margin: 2px 0 2px 0;
+    }
+}
+
+
+
+

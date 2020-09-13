@@ -5,21 +5,29 @@ import Tags from '../tags/tags'
 import Header from './header'
 import './wordTable.scss'
 import * as S from '../../storage/service'
+import WordCard from '../wordcard/wordcard'
+import { isNull } from 'util';
 
 type Props = {}
 
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.KeyValue<T.Word>[])
     const [query, setQuery] = useState("")
+    const [widx, setWIdx] = useState(null as number | null)
     useEffect(()=>{
         S.listWords().then(ws => setWords(ws))
     }, [])
+
+    useEffect(()=>{
+        setWIdx(words.length > 0 ? words.length-1 : null)
+    }, [words])
 
     const addWord = (w: T.WordInfo) => {
         return S.addWord(w).then(wi => setWords([wi, ...words]))
     }
 
     return(
+        <>
         <div className="vocabulary">
             <Header addWord={addWord}/>
             <table className="word-table">
@@ -35,6 +43,13 @@ export default ({}: Props) => {
                 </tbody>
             </table>
         </div>
+        <WordCard
+            onClose={()=>{setWIdx(null)}}
+            nextWord={()=>{}}
+            prevWord={()=>{}}
+            word={isNull(widx) ? null : words[widx]}
+        />
+        </>
     )
 }
 

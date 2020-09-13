@@ -1,44 +1,16 @@
 $button-color: rgba(0, 0, 0, 0.409);
 
 .wordcard-wrapper{
-    display: flex;
-    background: #EEDFDE;
     border-radius: 4px;
-    overflow-y: auto;
-    width: 720px;
-    height: 350px;
     margin: 0 auto;
-    align-items: stretch;
+    width: 720px;
     
-    .nav-left, .nav-right{
-        display: flex;
-        padding: 0 20px;
-        align-items: center;
-        color: $button-color;
-        cursor: pointer;
-        &:hover{
-            color: black;
-        }
-    }
-
-    .nav-left{
-        order: 0;
-        &:hover{
-            box-shadow: -5px -5px 15px;
-        }
-    }
-    .nav-right{
-        order: 3;
-        &:hover{
-            box-shadow: 5px 5px 15px;
-        }
-    }
-
     .close{
-        position: absolute;
+        float:right;
         padding: 20px;
-        margin: -45px 0 0 660px;
+        margin: 0 -65px -50px 0;
         font-size: 35px;
+        position: relative;
         color: white;
         cursor: pointer;
         &:hover, &:focus{
@@ -47,34 +19,89 @@ $button-color: rgba(0, 0, 0, 0.409);
         }
     }
 
-    .wordcard{
-        order: 1;
-        padding: 20px 0 20px 10px;
-        .content{
-            display: block;
-            text-align: center;
-            font-size: 250%;
-        }
-        .tags{
-            margin-top: -15px;
-            color: rgb(21, 135, 205);
-            font-weight: bold;
-            margin-bottom: 10px;
-            span{
-                padding-right: 7px;
-            }
-            span::before{
-                content: "#";
-            }
-        }
-        .description{
-            padding: 0 10px 0 0;
-        }
-        .description p{
-            margin: 2px 0 2px 0;
-        }
-        
+    .info{
+        float: left;
+        color: white;
+        font-weight: bolder;
+        font-size: 90%;
+        font-style: italic;
+    }
 
+    .wordcard-nav{
+        background: #EEDFDE;
+        align-items: stretch;
+        display: flex;
+        min-height: 400px;
+        width: 100%;
+        justify-content: space-between;
+        // overflow-y: auto;
+        .nav-left, .nav-right{
+            display: flex;
+            padding: 0 20px;
+            align-items: center;
+            color: $button-color;
+            cursor: pointer;
+            &:hover{
+                color: black;
+            }
+        }
+
+        .nav-left{
+            order: 0;
+            &:hover{
+                box-shadow: 5px 0 15px -10px;
+            }
+        }
+        .nav-right{
+            order: 3;
+            &:hover{
+                box-shadow: -5px 0 15px -10px;
+            }
+        }
+
+        .wordcard{
+            padding: 10px 0 20px 10px;
+            order: 1;
+            width: 100%;
+            overflow-x: auto;
+            .content{
+                display: block;
+                text-align: center;
+                font-size: 250%;
+            }
+            .tags{
+                margin-top: -15px;
+                color: rgb(21, 135, 205);
+                font-weight: bold;
+                margin-bottom: 10px;
+                span{
+                    padding-right: 7px;
+                    &::before{
+                        content: "#";
+                    }
+                }
+            }
+            .description{
+                padding: 0 10px 0 0;
+                p{
+                    margin: 2px 0 2px 0;
+                }
+            }
+            .buttons button{
+                color: #1587cd;
+                cursor: pointer;
+                padding: 5px;
+                border-radius: 6px;
+                font-size: 110%;
+                margin-top: 20px;
+                border: 1px solid;
+                &:hover{
+                    background-color: #1587cd;
+                    color: white;
+                }
+            }
+
+        }
     }
 }
 

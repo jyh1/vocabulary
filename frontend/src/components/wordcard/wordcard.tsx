@@ -1,5 +1,5 @@
 import React from 'react'
-
+import momentjs from 'moment'
 import Modal from '../modal/modal'
 import Tags from '../tags/tags'
 import * as T from '../../types'
@@ -27,29 +27,38 @@ export default (props: Props) => {
     return (<></>)
 }
 
-const Card = ({word}: Props)=>{
-    const {key, value:{content, description, tags, lastreview, reviewtime}} = word
+const Card = ({word, prevWord, nextWord, onClose}: Props)=>{
+    const {value:{content, description, tags, lastreview, reviewtime}} = word
+    const since = momentjs(lastreview).fromNow()
     return(
         <div className="wordcard-wrapper">
-            <div className="wordcard">
-                <button className="close" 
-                    onClick={()=>{}}
-                >&times;</button>
-                <div className="content">
-                    <Content ps={content}/>
-                </div>
-                <div className="tags">
-                    {tags.map((t, i)=><span key={i}>{t}</span>)}
-                </div>
-                <div className="description">
-                    <Description desc={description}/>
-                </div>
+            <button className="close" 
+                    onClick={onClose}
+            >&times;</button>
+            <div className="info">
+                Reviewed {since}
             </div>
-            <div className="nav-left" title="A">
-                <Icon icon="chevron-left"/>
-            </div>
-            <div className="nav-right" title="D">
-                <Icon icon="chevron-right"/>
+            <div className="wordcard-nav">
+                <div className="wordcard">                    
+                    <div className="content">
+                        <Content ps={content}/>
+                    </div>
+                    <div className="tags">
+                        {tags.map((t, i)=><span key={i}>{t}</span>)}
+                    </div>
+                    <div className="description">
+                        <Description desc={description}/>
+                    </div>
+                    <div className="buttons">
+                        <button title="S" onClick={()=>{}}>Review</button>
+                    </div>
+                </div>
+                <div className="nav-left" onClick={prevWord} title="A">
+                    <Icon icon="chevron-left"/>
+                </div>
+                <div className="nav-right" onClick={nextWord} title="D">
+                    <Icon icon="chevron-right"/>
+                </div>
             </div>
         </div>
     )

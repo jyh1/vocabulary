@@ -46,8 +46,8 @@ export default ({}: Props) => {
         {!isNull(widx)?
         <WordCard
             onClose={()=>{setWIdx(null)}}
-            nextWord={()=>{}}
-            prevWord={()=>{}}
+            nextWord={()=>{setWIdx(widx+1)}}
+            prevWord={()=>{setWIdx(widx-1)}}
             word={words[widx]}
         />: <></>}
         </>

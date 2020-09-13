@@ -11,11 +11,8 @@ export default ({content, onClose}: Props) =>{
             tabIndex={0}
             onKeyDown={e=>{if (e.keyCode===27) onClose()}}
         >
-            <div className="modal-outer">
-                <div className="modal-content">
-                    {content}
-                </div>
-                <button className="close" onClick={onClose}>&times;</button>
+            <div className="modal-content">
+                {content}
             </div>
         </div>
     )

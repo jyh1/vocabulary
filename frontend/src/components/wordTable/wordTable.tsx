@@ -43,12 +43,13 @@ export default ({}: Props) => {
                 </tbody>
             </table>
         </div>
+        {!isNull(widx)?
         <WordCard
             onClose={()=>{setWIdx(null)}}
             nextWord={()=>{}}
             prevWord={()=>{}}
-            word={isNull(widx) ? null : words[widx]}
-        />
+            word={words[widx]}
+        />: <></>}
         </>
     )
 }

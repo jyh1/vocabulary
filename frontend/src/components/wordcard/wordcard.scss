@@ -1,35 +1,82 @@
-.wordcard{
+$button-color: rgba(0, 0, 0, 0.409);
+
+.wordcard-wrapper{
+    display: flex;
     background: #EEDFDE;
-    padding: 20px 20px 20px 30px;
     border-radius: 4px;
     overflow-y: auto;
-    width: 600px;
+    width: 720px;
+    height: 350px;
     margin: 0 auto;
-    .content{
-        display: block;
-        text-align: center;
-        font-size: 250%;
-    }
-    .tags{
-        margin-top: -15px;
-        color: rgb(32, 166, 249);
-        font-weight: bold;
-        margin-bottom: 10px;
-        span{
-            padding-right: 7px;
-        }
-        span::before{
-            content: "#";
+    align-items: stretch;
+    
+    .nav-left, .nav-right{
+        display: flex;
+        padding: 0 20px;
+        align-items: center;
+        color: $button-color;
+        cursor: pointer;
+        &:hover{
+            color: black;
         }
     }
-    .description{
-        padding: 0 10px 0 0;
+
+    .nav-left{
+        order: 0;
+        &:hover{
+            box-shadow: -5px -5px 15px;
+        }
     }
-    .description p{
-        margin: 2px 0 2px 0;
+    .nav-right{
+        order: 3;
+        &:hover{
+            box-shadow: 5px 5px 15px;
+        }
+    }
+
+    .close{
+        position: absolute;
+        padding: 20px;
+        margin: -45px 0 0 660px;
+        font-size: 35px;
+        color: white;
+        cursor: pointer;
+        &:hover, &:focus{
+            text-decoration: none;
+            color: black;    
+        }
+    }
+
+    .wordcard{
+        order: 1;
+        padding: 20px 0 20px 10px;
+        .content{
+            display: block;
+            text-align: center;
+            font-size: 250%;
+        }
+        .tags{
+            margin-top: -15px;
+            color: rgb(21, 135, 205);
+            font-weight: bold;
+            margin-bottom: 10px;
+            span{
+                padding-right: 7px;
+            }
+            span::before{
+                content: "#";
+            }
+        }
+        .description{
+            padding: 0 10px 0 0;
+        }
+        .description p{
+            margin: 2px 0 2px 0;
+        }
+        
+
     }
 }
-
 
 
 

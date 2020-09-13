@@ -35,6 +35,11 @@
 
 .word-table th:nth-child(3){
     width: 30%;
+    cursor: text;
+}
+
+.word-table td:nth-child(3){
+    cursor: text;
 }
 
 

@@ -31,7 +31,7 @@ const Card = ({word, prevWord, nextWord, onClose}: Props)=>{
     const {value:{content, description, tags, lastreview, reviewtime}} = word
     const since = momentjs(lastreview).fromNow()
     return(
-        <div className="wordcard-wrapper">
+        <div className="wordcard-wrapper reviewed">
             <button className="close" 
                     onClick={onClose}
             >&times;</button>

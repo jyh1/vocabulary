@@ -3,7 +3,7 @@ $button-color: rgba(0, 0, 0, 0.409);
 .wordcard-wrapper{
     border-radius: 4px;
     margin: 0 auto;
-    width: 720px;
+    width: 730px;
     
     .close{
         float:right;
@@ -60,10 +60,12 @@ $button-color: rgba(0, 0, 0, 0.409);
         }
 
         .wordcard{
-            padding: 10px 0 20px 10px;
+            padding: 10px 0 40px 10px;
             order: 1;
             width: 100%;
             overflow-x: auto;
+            position: relative;
+            $review-color: #d00;
             .content{
                 display: block;
                 text-align: center;
@@ -87,23 +89,49 @@ $button-color: rgba(0, 0, 0, 0.409);
                     margin: 2px 0 2px 0;
                 }
             }
-            .buttons button{
-                color: #1587cd;
-                cursor: pointer;
-                padding: 5px;
-                border-radius: 6px;
-                font-size: 110%;
-                margin-top: 20px;
-                border: 1px solid;
-                &:hover{
-                    background-color: #1587cd;
-                    color: white;
+            .buttons {
+                margin-bottom: 20px;
+                vertical-align: bottom;
+                position: absolute;
+                bottom: 0;
+                button{
+                    $button-color: $review-color;
+                    color: $button-color;
+                    cursor: pointer;
+                    padding: 5px;
+                    border-radius: 3px;
+                    font-size: 110%;
+                    border: 1px solid;
+                    &:hover{
+                        background-color: $button-color;
+                        border-color: $button-color;
+                        color: white;
+                    }
                 }
+            }
+
+            &:after {
+                border: solid 1.1px $review-color;
+                border-radius: .2em;
+                color: $review-color;
+                content: '閲';
+                font-weight: bold;
+                line-height: 1;
+                position: absolute;
+                padding: 5px 5px;
+                margin: 0 auto;
+                top: 80px;
+                right: 10%;
+                visibility: hidden;
+                transform-origin: 50% 50%;
+                transform: rotate(-20deg) scale(2);
+                transition: all .3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
             }
 
         }
     }
 }
 
-
-
+.wordcard-wrapper.reviewed .wordcard-nav .wordcard::after{
+    visibility: visible;
+}

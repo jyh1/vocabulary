@@ -14,6 +14,8 @@ export type Word = WordInfo & {reviewtime: number, lastreview: Date}
 
 export type KeyValue<T> = {key: string, value: T}
 
+export type WordEntry = KeyValue<Word> & {reviewed: boolean}
+
 export type Tag = {id: string, name: string}
 
 

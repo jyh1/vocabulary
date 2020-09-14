@@ -10,12 +10,17 @@ import { isNull } from 'util';
 
 type Props = {}
 
+function tagReview(w: T.KeyValue<T.Word>):T.WordEntry{
+    return {...w, reviewed: false}
+}
+
 export default ({}: Props) => {
-    const [words, setWords] = useState([] as T.KeyValue<T.Word>[])
+    const [words, setWords] = useState([] as T.WordEntry[])
     const [query, setQuery] = useState("")
     const [widx, setWIdx] = useState(null as number | null)
+    const [refreshSt, refresh] = useState(false)
     useEffect(()=>{
-        S.listWords().then(ws => setWords(ws))
+        S.listWords().then(ws => setWords(ws.map(tagReview)))
     }, [])
 
     useEffect(()=>{
@@ -23,7 +28,18 @@ export default ({}: Props) => {
     }, [words])
 
     const addWord = (w: T.WordInfo) => {
-        return S.addWord(w).then(wi => setWords([wi, ...words]))
+        return S.addWord(w).then(wi => setWords([tagReview(wi), ...words]))
+    }
+
+    const review = () => {
+        if (!isNull(widx)) {
+            const key = words[widx].key
+            S.reviewWord(key)
+            .then((nw)=>{
+                words[widx]={key, value: nw, reviewed: true}
+                refresh(!refreshSt)
+            })
+        }
     }
 
     return(
@@ -48,6 +64,7 @@ export default ({}: Props) => {
             onClose={()=>{setWIdx(null)}}
             nextWord={()=>{setWIdx(widx+1)}}
             prevWord={()=>{setWIdx(widx-1)}}
+            review={review}
             word={words[widx]}
         />: <></>}
         </>

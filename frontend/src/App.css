@@ -18,3 +18,7 @@ button{
 button:focus {
   outline: none;
 }
+
+button:disabled{
+  opacity: 0.5;
+}

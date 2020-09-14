@@ -31,7 +31,7 @@ $button-color: rgba(0, 0, 0, 0.409);
         background: #EEDFDE;
         align-items: stretch;
         display: flex;
-        min-height: 400px;
+        min-height: 360px;
         width: 100%;
         justify-content: space-between;
         // overflow-y: auto;
@@ -60,7 +60,7 @@ $button-color: rgba(0, 0, 0, 0.409);
         }
 
         .wordcard{
-            padding: 10px 0 40px 10px;
+            padding: 10px 0 45px 10px;
             order: 1;
             width: 100%;
             overflow-x: auto;
@@ -90,7 +90,7 @@ $button-color: rgba(0, 0, 0, 0.409);
                 }
             }
             .buttons {
-                margin-bottom: 20px;
+                margin-bottom: 10px;
                 vertical-align: bottom;
                 position: absolute;
                 bottom: 0;
@@ -102,7 +102,7 @@ $button-color: rgba(0, 0, 0, 0.409);
                     border-radius: 3px;
                     font-size: 110%;
                     border: 1px solid;
-                    &:hover{
+                    &:not(:disabled):hover{
                         background-color: $button-color;
                         border-color: $button-color;
                         color: white;
@@ -121,11 +121,10 @@ $button-color: rgba(0, 0, 0, 0.409);
                 padding: 5px 5px;
                 margin: 0 auto;
                 top: 80px;
-                right: 10%;
-                visibility: hidden;
+                left: 10%;
+                opacity: 0;
                 transform-origin: 50% 50%;
-                transform: rotate(-20deg) scale(2);
-                transition: all .3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
+                transform: rotate(-2deg) scale(10);
             }
 
         }
@@ -133,5 +132,8 @@ $button-color: rgba(0, 0, 0, 0.409);
 }
 
 .wordcard-wrapper.reviewed .wordcard-nav .wordcard::after{
-    visibility: visible;
+    transform: rotate(-20deg) scale(2);
+    z-index: 1;
+    opacity: .6;
+    transition: all .3s cubic-bezier(0.6, 0.04, 0.98, 0.335);
 }

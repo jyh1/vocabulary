@@ -10,10 +10,11 @@ import { isNull } from 'util'
 
 
 type Props = {
-      word: T.KeyValue<T.Word>
+      word: T.WordEntry
     , nextWord: ()=>void
     , prevWord: ()=>void
     , onClose: ()=>void
+    , review: ()=>void
 }
 
 export default (props: Props) => {
@@ -27,11 +28,11 @@ export default (props: Props) => {
     return (<></>)
 }
 
-const Card = ({word, prevWord, nextWord, onClose}: Props)=>{
-    const {value:{content, description, tags, lastreview, reviewtime}} = word
+const Card = ({word, prevWord, nextWord, onClose, review}: Props)=>{
+    const {value:{content, description, tags, lastreview, reviewtime}, reviewed} = word
     const since = momentjs(lastreview).fromNow()
     return(
-        <div className="wordcard-wrapper reviewed">
+        <div className={reviewed? "wordcard-wrapper reviewed" : "wordcard-wrapper"}>
             <button className="close" 
                     onClick={onClose}
             >&times;</button>
@@ -50,7 +51,7 @@ const Card = ({word, prevWord, nextWord, onClose}: Props)=>{
                         <Description desc={description}/>
                     </div>
                     <div className="buttons">
-                        <button title="S" onClick={()=>{}}>Review</button>
+                        <button title="S" disabled={reviewed} onClick={review}>Review {reviewtime}</button>
                     </div>
                 </div>
                 <div className="nav-left" onClick={prevWord} title="A">

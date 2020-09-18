@@ -6,7 +6,6 @@ import Header from './header'
 import './wordTable.scss'
 import * as S from '../../storage/service'
 import WordCard from '../wordcard/wordcard'
-import { isNull } from 'util';
 
 type Props = {}
 
@@ -32,7 +31,7 @@ export default ({}: Props) => {
     }
 
     const review = () => {
-        if (!isNull(widx)) {
+        if (widx !==null && !words[widx].reviewed) {
             const key = words[widx].key
             S.reviewWord(key)
             .then((nw)=>{
@@ -59,7 +58,7 @@ export default ({}: Props) => {
                 </tbody>
             </table>
         </div>
-        {!isNull(widx)?
+        {(widx!==null)?
         <WordCard
             onClose={()=>{setWIdx(null)}}
             nextWord={()=>{setWIdx(widx+1)}}

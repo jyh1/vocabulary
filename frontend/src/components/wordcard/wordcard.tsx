@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useEffect, useRef} from 'react'
 import momentjs from 'moment'
 import Modal from '../modal/modal'
 import Tags from '../tags/tags'
@@ -6,7 +6,6 @@ import * as T from '../../types'
 import './wordcard.scss'
 import Content, {Description} from '../word'
 import Icon from '../icon'
-import { isNull } from 'util'
 
 
 type Props = {
@@ -19,20 +18,42 @@ type Props = {
 
 export default (props: Props) => {
     const {word, onClose} = props
-    if (!isNull(word)){
-        const card = isNull(word) ? null : (<Card {...props}/>)
-        return(
-            <Modal content={card} onClose={onClose}/>
-        )
-    }
-    return (<></>)
+    const card = word === null ? null : (<Card {...props}/>)
+    return(
+        <Modal content={card} onClose={onClose}/>
+    )
 }
 
 const Card = ({word, prevWord, nextWord, onClose, review}: Props)=>{
     const {value:{content, description, tags, lastreview, reviewtime}, reviewed} = word
     const since = momentjs(lastreview).fromNow()
+
+    const topRef = useRef(null as HTMLDivElement | null)
+
+    useEffect(()=>{
+        topRef.current?.focus()
+    }, [])
+
+    const handleKeydown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        switch (e.key){
+            case "a":
+                prevWord()
+                break
+            case "s":
+                review()
+                break
+            case "d":
+                nextWord()
+        }
+    }
+
     return(
-        <div className={reviewed? "wordcard-wrapper reviewed" : "wordcard-wrapper"}>
+        <div 
+            className={reviewed? "wordcard-wrapper reviewed" : "wordcard-wrapper"}
+            onKeyDown={handleKeydown}
+            tabIndex={0}
+            ref={topRef}
+        >
             <button className="close" 
                     onClick={onClose}
             >&times;</button>

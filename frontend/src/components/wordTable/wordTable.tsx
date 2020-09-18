@@ -6,6 +6,7 @@ import Header from './header'
 import './wordTable.scss'
 import * as S from '../../storage/service'
 import WordCard from '../wordcard/wordcard'
+import word from '../word';
 
 type Props = {}
 
@@ -16,11 +17,16 @@ function tagReview(w: T.KeyValue<T.Word>):T.WordEntry{
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.WordEntry[])
     const [query, setQuery] = useState("")
-    const [widx, setWIdx] = useState(null as number | null)
+    const [widx, _setWIdx] = useState(null as number | null)
     const [refreshSt, refresh] = useState(false)
     useEffect(()=>{
         S.listWords().then(ws => setWords(ws.map(tagReview)))
     }, [])
+
+    const setWIdx = (i: number | null) => {
+        if (i === null) _setWIdx(null)
+        else if (0 <= i && i < words.length) _setWIdx(i)
+    }
 
     useEffect(()=>{
         setWIdx(words.length > 0 ? words.length-1 : null)

@@ -6,8 +6,7 @@ import Header from './header'
 import './wordTable.scss'
 import * as S from '../../storage/service'
 import WordCard from '../wordcard/wordcard'
-import word from '../word';
-import { cursorTo } from 'readline';
+import Tooltip from '../tooltip/tooltip'
 
 type Props = {}
 
@@ -28,10 +27,6 @@ export default ({}: Props) => {
         if (i === null) _setWIdx(null)
         else if (0 <= i && i < words.length) _setWIdx(i)
     }
-
-    useEffect(()=>{
-        setWIdx(words.length > 0 ? words.length-1 : null)
-    }, [words])
 
     const addWord = (w: T.WordInfo) => {
         return S.addWord(w).then(wi => setWords([tagReview(wi), ...words]))
@@ -61,7 +56,13 @@ export default ({}: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {words.map((w) => (<Entry word={w.value} key={w.key}/>))}
+                    {words.map((w, i) => (
+                        <Entry 
+                            word={w.value} 
+                            key={w.key}
+                            activate={()=>{setWIdx(i)}}
+                        />))
+                    }
                 </tbody>
             </table>
         </div>
@@ -79,10 +80,9 @@ export default ({}: Props) => {
 }
 
 
-const Entry = ({word}: {word: T.Word}) => {
+const Entry = ({word, activate}: {word: T.Word, activate: ()=>void}) => {
     const {content, tags, description} = word
     const [rtags, setRtags] = useState(tags)
-    const ref = useRef(null)
     const onAddition = (tag: T.Tag) => {
         setRtags([...rtags, tag.name])
     }
@@ -90,11 +90,11 @@ const Entry = ({word}: {word: T.Word}) => {
         setRtags(rtags.filter((tag, index) => index !== i))
     }
     return(
-        <tr>
+        <tr onClick={activate}>
             <td>{<Word ps={content}/>}</td>
             <td>{description}</td>
-            <td valign="top">
-                <Tags 
+            <td valign="top" onClick={e=>e.stopPropagation()}>
+                <Tags
                     onAddition={onAddition}
                     onDelete={onDelete}
                     tags={rtags}

@@ -1,8 +1,11 @@
 .header{
     display: flex;
     justify-content: space-between;
-    margin-bottom: 7px;
+    padding-bottom: 14px;
     padding-right: 7px;
+    position: sticky;
+    top: 0;
+    background-color: white;
 }
 
 // .header-query{

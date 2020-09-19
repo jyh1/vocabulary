@@ -14,6 +14,7 @@ type Props = {
     , prevWord: ()=>void
     , onClose: ()=>void
     , review: ()=>void
+    , index: {widx: number, length: number}
 }
 
 export default (props: Props) => {
@@ -24,8 +25,14 @@ export default (props: Props) => {
     )
 }
 
-const Card = ({word, prevWord, nextWord, onClose, review}: Props)=>{
+const Card = ({word, prevWord, nextWord, onClose, review, index}: Props)=>{
     const {value:{content, description, tags, lastreview, reviewtime}, reviewed} = word
+    const {widx, length} = index
+
+    const hasPrev = widx > 0
+    const hasNext = widx < length - 1
+    const disableCls = (test: boolean, cls: string) => cls + (test ? " disabled" :  "")
+
     const since = momentjs(lastreview).fromNow()
 
     const topRef = useRef(null as HTMLDivElement | null)
@@ -61,6 +68,7 @@ const Card = ({word, prevWord, nextWord, onClose, review}: Props)=>{
                 Reviewed {since}
             </div>
             <div className="wordcard-nav">
+
                 <div className="wordcard">                    
                     <div className="content">
                         <Content ps={content}/>
@@ -75,11 +83,14 @@ const Card = ({word, prevWord, nextWord, onClose, review}: Props)=>{
                         <button title="S" disabled={reviewed} onClick={review}>Review {reviewtime}</button>
                     </div>
                 </div>
-                <div className="nav-left" onClick={prevWord} title="A">
+                <div className={disableCls(hasPrev, "nav-left")} onClick={prevWord} title="A">
                     <Icon icon="chevron-left"/>
                 </div>
-                <div className="nav-right" onClick={nextWord} title="D">
+                <div className={disableCls(hasNext, "nav-right")} onClick={nextWord} title="D">
                     <Icon icon="chevron-right"/>
+                </div>
+                <div className ="index">
+                    {widx+1} / {length}
                 </div>
             </div>
         </div>

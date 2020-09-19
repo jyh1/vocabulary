@@ -7,6 +7,7 @@ import './wordTable.scss'
 import * as S from '../../storage/service'
 import WordCard from '../wordcard/wordcard'
 import word from '../word';
+import { cursorTo } from 'readline';
 
 type Props = {}
 
@@ -71,6 +72,7 @@ export default ({}: Props) => {
             prevWord={()=>{setWIdx(widx-1)}}
             review={review}
             word={words[widx]}
+            index={{widx, length: words.length}}
         />: <></>}
         </>
     )

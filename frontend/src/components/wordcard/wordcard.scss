@@ -38,7 +38,14 @@ $button-color: rgba(0, 0, 0, 0.409);
         min-height: 360px;
         width: 100%;
         justify-content: space-between;
-        // overflow-y: auto;
+
+        .index{
+            position: absolute;
+            margin: 2px 0 0 5px;
+            font-style: italic;
+            font-size: 90%;
+            color: #4e4e4e;
+        }
         .nav-left, .nav-right{
             display: flex;
             padding: 0 20px;

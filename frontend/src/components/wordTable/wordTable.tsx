@@ -105,7 +105,7 @@ const Entry = ({
     return(
         <tr onClick={activate} className={reviewed ? "reviewed" : ""}>
             <td>{<Word ps={content}/>}</td>
-            <td>{description}</td>
+            <td><div className="description">{description}</div></td>
             <td valign="top" onClick={e=>e.stopPropagation()}>
                 <Tags
                     onAddition={onAddition}

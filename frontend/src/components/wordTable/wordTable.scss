@@ -27,8 +27,14 @@
             }
     
     
-        }    
+        }
         td{
+            .description{
+                max-height: 150px;
+                overflow:hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
             &:nth-child(3){
                 cursor: text;
             }
@@ -36,9 +42,8 @@
                 position: absolute;
                 visibility: hidden;
                 border: none;
-                height: 50%;
-                width: 30%;
                 .controls{
+                    padding-bottom: 10px;
                     button{
                         padding: 5px;
                         font-size: 120%;

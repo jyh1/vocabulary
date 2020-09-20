@@ -1,5 +1,6 @@
 .app{
   margin: auto;
+  max-width: 900px;
   min-width: 600px;
   padding: 20px 12% 100px 12%;
   /* font-size: 6px; */

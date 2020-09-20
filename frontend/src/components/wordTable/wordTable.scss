@@ -3,53 +3,82 @@
     width: 100%;
     table-layout: fixed;
     border-collapse: collapse;
-}
 
-.word-table th{
-    font-size: 20px;
-    text-align: left;
-    padding-top: 6px;
-    padding-bottom: 6px;
-    background-color: #4CAF50;
-    color: white;
-}
+    tr{
+        &:nth-child(even){
+            background-color: #f2f2f2;
+        }
+        th{
+            font-size: 20px;
+            text-align: left;
+            padding-top: 6px;
+            padding-bottom: 6px;
+            background-color: #4CAF50;
+            color: white;
+            &:first-child{
+                width: 20%;
+            }
+            &:nth-child(2){
+                width: 50%;
+            }
+            &:nth-child(3){
+                width: 30%;
+                cursor: text;
+            }
+    
+    
+        }    
+        td{
+            &:nth-child(3){
+                cursor: text;
+            }
+            &:nth-child(4){
+                position: absolute;
+                visibility: hidden;
+                border: none;
+                height: 50%;
+                width: 30%;
+                .controls{
+                    button{
+                        padding: 5px;
+                        font-size: 120%;
+                        cursor: pointer;
+                    }
+                    .edit, .review{
+                        color: #007bff;
+                    }
+                    .delete{
+                        color: red;
+                    }
+                }
+            }
+        }
 
-.word-table td{
-    font-size: 20x;
-}
 
-.word-table th, .word-table td{
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding-left: 8px;
-    padding-right: 4px;
-}
-
-.word-table th:first-child{
-    width: 20%;
-}
-
-.word-table th:nth-child(2){
-    width: 50%;
-}
-
-.word-table th:nth-child(3){
-    width: 30%;
-    cursor: text;
-}
-
-.word-table td:nth-child(3){
-    cursor: text;
-}
-
-
-.word-table tr:nth-child(even){
-    background-color: #f2f2f2;
-}
-
-
-.word-table tbody > tr{
-    &:hover{
-        box-shadow: inset 5px 5px 10px -8px;
+        th, td{
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding-left: 8px;
+            padding-right: 4px;
+        }
+    
+    
     }
+
+    tr.reviewed{
+        opacity: 50%;
+    }
+
+    tr:hover td:nth-child(4){
+        visibility: visible;
+    }
+
+    tbody > tr{
+        &:hover{
+            box-shadow: inset 5px 5px 10px -8px;
+        }
+    }
+
+
 }
+

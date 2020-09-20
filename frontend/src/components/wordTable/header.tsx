@@ -5,7 +5,6 @@ import Icon from '../icon'
 import Tags from '../tags/tags'
 import * as T from '../../types'
 import {parseWordPieces} from '../../parser/parser'
-import { isNull } from 'util'
 
 
 type Props = {addWord: AddWord}
@@ -44,9 +43,9 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
         setRtags([...rtags, tag.name])
     }
     const parenShortcut = (e: React.KeyboardEvent) =>{
-        if (e.keyCode===27){
+        if (e.key==="Escape"){
             const idx = contRef.current.selectionStart
-            if (!isNull(idx)){
+            if (idx !== null){
                 const text = contRef.current.value
                 contRef.current.value=text.slice(0, idx) + "()" + text.slice(idx)
                 contRef.current.selectionStart = idx + 1

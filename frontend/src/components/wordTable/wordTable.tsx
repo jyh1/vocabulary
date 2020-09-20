@@ -1,4 +1,4 @@
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import * as T from '../../types'
 import Word from '../word'
 import Tags from '../tags/tags'
@@ -6,7 +6,7 @@ import Header from './header'
 import './wordTable.scss'
 import * as S from '../../storage/service'
 import WordCard from '../wordcard/wordcard'
-import Tooltip from '../tooltip/tooltip'
+import Icon from '../icon'
 
 type Props = {}
 
@@ -32,12 +32,20 @@ export default ({}: Props) => {
         return S.addWord(w).then(wi => setWords([tagReview(wi), ...words]))
     }
 
-    const review = () => {
-        if (widx !==null && !words[widx].reviewed) {
-            const key = words[widx].key
+    const delWord = (i: number) => {
+        return () => {
+            S.delWord(words[i].key).then(() => {
+                setWords(words.filter((_,j)=>i!==j))
+            })
+        }
+    }
+
+    const review = (i: number | null) => {
+        if (i !==null && !words[i].reviewed) {
+            const key = words[i].key
             S.reviewWord(key)
             .then((nw)=>{
-                words[widx]={key, value: nw, reviewed: true}
+                words[i]={key, value: nw, reviewed: true}
                 refresh(!refreshSt)
             })
         }
@@ -58,9 +66,11 @@ export default ({}: Props) => {
                 <tbody>
                     {words.map((w, i) => (
                         <Entry 
-                            word={w.value} 
+                            word={w} 
                             key={w.key}
                             activate={()=>{setWIdx(i)}}
+                            del={delWord(i)}
+                            review={()=>review(i)}
                         />))
                     }
                 </tbody>
@@ -71,7 +81,7 @@ export default ({}: Props) => {
             onClose={()=>{setWIdx(null)}}
             nextWord={()=>{setWIdx(widx+1)}}
             prevWord={()=>{setWIdx(widx-1)}}
-            review={review}
+            review={()=>review(widx)}
             word={words[widx]}
             index={{widx, length: words.length}}
         />: <></>}
@@ -80,8 +90,11 @@ export default ({}: Props) => {
 }
 
 
-const Entry = ({word, activate}: {word: T.Word, activate: ()=>void}) => {
-    const {content, tags, description} = word
+const Entry = ({
+    word, activate, del, review}: 
+    {word: T.WordEntry, activate: ()=>void, del: ()=>void, review: ()=>void}) => {
+    const {content, tags, description} = word.value
+    const reviewed = word.reviewed
     const [rtags, setRtags] = useState(tags)
     const onAddition = (tag: T.Tag) => {
         setRtags([...rtags, tag.name])
@@ -90,7 +103,7 @@ const Entry = ({word, activate}: {word: T.Word, activate: ()=>void}) => {
         setRtags(rtags.filter((tag, index) => index !== i))
     }
     return(
-        <tr onClick={activate}>
+        <tr onClick={activate} className={reviewed ? "reviewed" : ""}>
             <td>{<Word ps={content}/>}</td>
             <td>{description}</td>
             <td valign="top" onClick={e=>e.stopPropagation()}>
@@ -100,6 +113,29 @@ const Entry = ({word, activate}: {word: T.Word, activate: ()=>void}) => {
                     tags={rtags}
                 />
             </td>
+            <td onClick={e=>e.stopPropagation()}>
+                <Controls del={del} review={review} reviewed={reviewed}/>
+            </td>
         </tr>
+    )
+}
+
+
+const Controls = ({del, review, reviewed}
+                : {del: ()=>void, review: ()=>void, reviewed: boolean}) => 
+{
+    return(
+        <div className="controls">
+            <button className="edit"><Icon icon="pen-alt"/></button>
+            <button 
+                className="review"
+                onClick={review}
+            ><Icon icon={reviewed ? "book-open" : "book"}/></button>
+            <button 
+                className="delete"
+                onDoubleClick={del}
+                ><Icon icon="trash-alt"/>
+            </button>
+        </div>
     )
 }

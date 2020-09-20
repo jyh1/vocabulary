@@ -51,3 +51,7 @@ export async function listWords(test ?: (w: T.Word)=>boolean){
     return words
 }
 
+
+export async function delWord(key: string){
+    return await vocabulary.removeItem(key)
+}

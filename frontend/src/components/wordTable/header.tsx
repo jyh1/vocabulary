@@ -54,12 +54,22 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
         }
         setError(false)
     }
+
+    const handleTextAreaKey = (e: React.KeyboardEvent) => {
+        if ((e.metaKey || e.ctrlKey) && e.key === "Enter"){
+            create()
+        }
+    }
     const create = () => {
         try{
             const content = parseWordPieces(contRef.current.value)
             const description = descRef.current.value
             addWord({content, description, tags: rtags})
-            .then(()=>{contRef.current.value=""; descRef.current.value=""})
+            .then(()=>{
+                contRef.current.value=""
+                descRef.current.value=""
+                contRef.current.focus()
+            })
         } catch(e){
             setError(true)
         }
@@ -81,7 +91,7 @@ const NewWord = ({addWord}: {addWord: AddWord}) => {
                 placeholder="e.g. 見(み)る. Press [Esc] to insert ()"
             />
             <div className="label">Definition</div>
-            <textarea ref={descRef}/>
+            <textarea onKeyDown={handleTextAreaKey} ref={descRef}/>
             <button className="save" onClick={create}><Icon icon="save"/></button>
         </div>
     )

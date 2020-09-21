@@ -71,14 +71,14 @@
     }
 
     tr.reviewed{
-        opacity: 50%;
+        background-color: #f1f1e2;
     }
 
     tr:hover td:nth-child(4){
         visibility: visible;
     }
 
-    tbody > tr{
+    tbody > tr:not(.reviewed){
         &:hover{
             box-shadow: inset 5px 5px 10px -8px;
         }

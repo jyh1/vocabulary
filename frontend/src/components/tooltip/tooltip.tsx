@@ -1,16 +1,15 @@
 import React, {useState} from 'react'
 import './tooltip.scss'
 
-type Props = {children: [JSX.Element, JSX.Element]}
+type Props = {children: [JSX.Element, JSX.Element], active: boolean}
 
-export default ({children}: Props)=>{
+export default ({children, active}: Props)=>{
     const [ele, tooltip] = children
-    const [active, setActive] = useState(false)
     return(
         <div className={active ? "tooltip-wrapper active": "tooltip-wrapper"}>
             <div 
                 className={active ? "tooltip-ele active" : "tooltip-ele"} 
-                onClick={()=>setActive(!active)}>
+            >
                 {ele}
             </div>
             <div className="tooltip-tooltip">

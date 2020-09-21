@@ -10,6 +10,6 @@
     z-index: 1;
   }
   
-  .tooltip-wrapper:hover .tooltip-tooltip, .tooltip-wrapper.active .tooltip-tooltip{
+  .tooltip-wrapper.active .tooltip-tooltip{
     visibility: visible;
   }

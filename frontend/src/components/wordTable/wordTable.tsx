@@ -19,6 +19,7 @@ export default ({}: Props) => {
     const [query, setQuery] = useState("")
     const [widx, _setWIdx] = useState(null as number | null)
     const [refreshSt, refresh] = useState(false)
+    const [editing, setEditing] = useState(null as number | null)
     useEffect(()=>{
         S.listWords().then(ws => setWords(ws.map(tagReview)))
     }, [])
@@ -30,6 +31,14 @@ export default ({}: Props) => {
 
     const addWord = (w: T.WordInfo) => {
         return S.addWord(w).then(wi => setWords([tagReview(wi), ...words]))
+    }
+
+    const editWord = (i: number) => {
+        const key = words[i].key
+        return (w: T.WordInfo) => {
+            return S.updateWord(key, ow => ({...ow, ...w}))
+            .then((nw)=>{words[i].value=nw;refresh(!refreshSt)})
+        }
     }
 
     const delWord = (i: number) => {
@@ -54,7 +63,11 @@ export default ({}: Props) => {
     return(
         <>
         <div className="vocabulary">
-            <Header addWord={addWord}/>
+            <Header 
+                addWord={editing === null ? addWord : editWord(editing)}
+                init={editing === null ? null : words[editing].value}
+                cancel={()=>setEditing(null)}
+            />
             <table className="word-table">
                 <thead>
                     <tr>
@@ -71,6 +84,7 @@ export default ({}: Props) => {
                             activate={()=>{setWIdx(i)}}
                             del={delWord(i)}
                             review={()=>review(i)}
+                            edit={()=>setEditing(i)}
                         />))
                     }
                 </tbody>
@@ -91,8 +105,8 @@ export default ({}: Props) => {
 
 
 const Entry = ({
-    word, activate, del, review}: 
-    {word: T.WordEntry, activate: ()=>void, del: ()=>void, review: ()=>void}) => {
+    word, activate, del, review, edit}: 
+    {word: T.WordEntry, activate: ()=>void, del: ()=>void, review: ()=>void, edit: ()=>void}) => {
     const {content, tags, description} = word.value
     const reviewed = word.reviewed
     const [rtags, setRtags] = useState(tags)
@@ -114,19 +128,22 @@ const Entry = ({
                 />
             </td>
             <td onClick={e=>e.stopPropagation()}>
-                <Controls del={del} review={review} reviewed={reviewed}/>
+                <Controls del={del} review={review} reviewed={reviewed} edit={edit}/>
             </td>
         </tr>
     )
 }
 
 
-const Controls = ({del, review, reviewed}
-                : {del: ()=>void, review: ()=>void, reviewed: boolean}) => 
+const Controls = ({del, review, reviewed, edit}
+                : {del: ()=>void, review: ()=>void, reviewed: boolean, edit: ()=>void}) => 
 {
     return(
         <div className="controls">
-            <button className="edit"><Icon icon="pen-alt"/></button>
+            <button 
+                className="edit"
+                onClick={edit}
+            ><Icon icon="pen-alt"/></button>
             <button 
                 className="review"
                 onClick={review}

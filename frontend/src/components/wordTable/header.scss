@@ -105,6 +105,14 @@ $header-font-size: .875rem;
 }
 
 
-.header-buttons .save i{
-    background-color: #4CAF50;
+.header-buttons {
+    button:not(:first-child){
+        padding-left: 7px;
+    }
+    .save i{
+        background-color: #4CAF50;
+    }
+    .cancel i{
+        background-color: #FF4500;
+    }
 }

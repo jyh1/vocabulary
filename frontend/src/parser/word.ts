@@ -21,15 +21,15 @@ const Character: P<string> = apply(tok(TokenKind.Character), v => v.text)
 
 const Text: P<string> = apply(rep_sc(Character), v=>v.join(''))
 
-const Annot: P<string> = kmid(str<TokenKind>('('), Text, str(')'))
+const Annot: P<string> = kmid(tok(TokenKind.LParen), Text, tok(TokenKind.RParen))
 
 const Piece: P<T.WordPiece> = 
     apply(seq(Character, opt_sc(Annot)),
         ([t, anno]) => (anno ? {text: t, kana: anno}: t))
 
-const Pieces: P<T.WordPieces> = 
+export const Pieces: P<T.WordPieces> = 
     apply(seq(Piece, rep_sc(Piece)), ([v, vs]) => [v, ...vs])
 
-export default function (input: string): T.WordPieces{
+export function parseWordPieces(input: string): T.WordPieces{
     return expectSingleResult(expectEOF(Pieces.parse(lexer.parse(input.trim()))))
 }

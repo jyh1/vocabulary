@@ -17,6 +17,7 @@ function tagReview(w: T.KeyValue<T.Word>):T.WordEntry{
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.WordEntry[])
     const [query, setQuery] = useState("")
+    const [hide, setHide] = useState(false)
     const [widx, _setWIdx] = useState(null as number | null)
     const [refreshSt, refresh] = useState(false)
     const [editing, setEditing] = useState(null as number | null)
@@ -61,12 +62,13 @@ export default ({}: Props) => {
     }
 
     return(
-        <>
+        <div className={hide? "hide" : ""}>
         <div className="vocabulary">
             <Header 
                 addWord={editing === null ? addWord : editWord(editing)}
                 init={editing === null ? null : words[editing].value}
                 cancel={()=>setEditing(null)}
+                toggleHide={()=>setHide(!hide)}
             />
             <table className="word-table">
                 <thead>
@@ -99,7 +101,7 @@ export default ({}: Props) => {
             word={words[widx]}
             index={{widx, length: words.length}}
         />: <></>}
-        </>
+        </div>
     )
 }
 
@@ -118,7 +120,7 @@ const Entry = ({
     }
     return(
         <tr onClick={activate} className={reviewed ? "reviewed" : ""}>
-            <td>{<Word ps={content}/>}</td>
+            <td><div className="content">{<Word ps={content}/>}</div></td>
             <td><div className="description">{description}</div></td>
             <td valign="top" onClick={e=>e.stopPropagation()}>
                 <Tags

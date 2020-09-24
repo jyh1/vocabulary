@@ -55,11 +55,13 @@ $header-font-size: .875rem;
     border-radius: .25rem;
 }
 
-.header-buttons .add i{
+
+.header-buttons i{
     background-color: #007bff;
+    width: 18px;
 }
 
-.header-buttons .active .add i {
+.header-buttons .active i {
     background-color: white;
     color: #007bff;
     border-color: #007bff;

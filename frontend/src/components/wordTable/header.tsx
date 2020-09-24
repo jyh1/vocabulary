@@ -8,7 +8,12 @@ import {serializeWordPieces} from '../../utils'
 import {parseWordPieces} from '../../parser/parser'
 
 
-type Props = {addWord: AddWord, init: T.WordInfo | null, cancel: ()=>void}
+type Props = {
+      addWord: AddWord
+    , init: T.WordInfo | null
+    , cancel: ()=>void
+    , toggleHide: ()=>void
+}
 
 type AddWord = (w: T.WordInfo)=>Promise<void>
 
@@ -25,6 +30,7 @@ const Buttons = (props: Props) =>{
     return(
         <div className="header-buttons">
             <NewWord {...props}/>
+            <button onClick={props.toggleHide}><Icon icon="eye-slash"/></button>
         </div>
     )
 }

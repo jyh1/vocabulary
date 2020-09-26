@@ -1,3 +1,4 @@
+import { promises } from 'dns';
 import localforage from 'localforage'
 import * as T from '../types'
 
@@ -15,6 +16,10 @@ export async function addWord(word: T.WordInfo){
     const newword: T.Word = {...word, reviewtime: 1, lastreview: new Date()}
     await saveWord(key, newword)
     return {key, value: newword} as T.KeyValue<T.Word>
+}
+
+export async function addWords(words: T.WordInfo[]){
+    return await Promise.all(words.map(addWord))
 }
 
 export async function updateWord(key: string, f: (w:T.Word)=> T.Word){

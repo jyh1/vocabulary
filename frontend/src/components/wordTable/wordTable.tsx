@@ -5,6 +5,7 @@ import Tags from '../tags/tags'
 import Header from './header'
 import './wordTable.scss'
 import * as S from '../../storage/service'
+import * as Q from '../../query/query'
 import WordCard from '../wordcard/wordcard'
 import Icon from '../icon'
 
@@ -61,6 +62,18 @@ export default ({}: Props) => {
         }
     }
 
+    const executeQuery = (query: T.Query) => {
+        console.log(query)
+        if (query.type === "Insert"){
+            Q.executeInsert(query.words).then(
+                newwords => {
+                    setWords([...newwords.map(tagReview), ...words])
+                }
+            )
+
+        }
+    }
+
     return(
         <div className={hide? "hide" : ""}>
         <div className="vocabulary">
@@ -69,7 +82,7 @@ export default ({}: Props) => {
                 init={editing === null ? null : words[editing].value}
                 cancel={()=>setEditing(null)}
                 toggleHide={()=>setHide(!hide)}
-                query={q=>console.log(q)}
+                query={executeQuery}
             />
             <table className="word-table">
                 <thead>

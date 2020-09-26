@@ -4,21 +4,21 @@ import { opt_sc, nil, opt, apply, kmid, rep_sc, seq, tok, alt } from 'typescript
 import * as T from '../types'
 
 enum TokenKind {
-      Character
+      Insert
+    , Character
     , LParen
     , RParen
     , Tag
     , Newline
     , Space
-    , Insert
 }
 
 const lexer = buildLexer([
     [true, /^\#[^\s#]+/g, TokenKind.Tag],
     [true, /^\(/g, TokenKind.LParen],
     [true, /^\)/g, TokenKind.RParen],
-    [true, /^\n+/g, TokenKind.Newline],
     [true, /^Insert[\s]+/gi, TokenKind.Insert],
+    [true, /^\n+/g, TokenKind.Newline],
     [true, /^[ \t]+/g, TokenKind.Space],
     [true, /^[^()\n]/g, TokenKind.Character],
 ])
@@ -33,7 +33,10 @@ const Text: P<string> = apply(rep_sc(Character), v=>v.join(''))
 
 const Annot: P<string> = kmid(tok(TokenKind.LParen), Text, tok(TokenKind.RParen))
 
-const Line: P<string> = apply(seq(Character, rep_sc(Character)), cs=>cs.join(''))
+const DChar = apply(
+    alt(tok(TokenKind.Character), tok(TokenKind.LParen), tok(TokenKind.RParen), tok(TokenKind.Space)), t=>t.text)
+
+const Line: P<string> = apply(seq(DChar, rep_sc(DChar)), ([c1, cs]) =>c1 + cs.join(''))
 
 
 const Piece: P<T.WordPiece> = 
@@ -47,7 +50,7 @@ const WordInfo: P<Omit<T.WordInfo, "tags">> =
     apply(seq(Pieces, tok(TokenKind.Newline), Line, spaces),
         ([content, _, description]) => ({content, description}))
 
-const Tag: P<string> = apply(kleft(tok(TokenKind.Tag), spaces), v => v.text)
+const Tag: P<string> = apply(kleft(tok(TokenKind.Tag), spaces), v => v.text.substr(1))
 
 const Tags: P<string[]> = list_sc(Tag, nil())
 

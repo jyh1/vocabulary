@@ -88,6 +88,7 @@ $button-color: rgba(0, 0, 0, 0.409);
                 font-weight: bold;
                 margin-bottom: 10px;
                 span{
+                    white-space:nowrap;
                     padding-right: 7px;
                     &::before{
                         content: "#";

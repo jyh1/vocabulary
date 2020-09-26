@@ -145,6 +145,9 @@ const Filter = ({query}: {query: (q:T.Query)=>void}) => {
         if (e.key === "Escape"){
             insertParens(tref)
         }
+        if ((e.metaKey || e.ctrlKey) && e.key === "Enter"){
+            execute()
+        }
     }
     return(
         <div className="header-query">

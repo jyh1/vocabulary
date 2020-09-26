@@ -35,6 +35,17 @@
                 text-overflow: ellipsis;
                 white-space: nowrap;
             }
+            .tags{
+                color: rgb(21, 135, 205);
+                font-weight: bold;
+                span{
+                    white-space:nowrap;
+                    padding-right: 7px;
+                    &::before{
+                        content: "#";
+                    }
+                }
+            }
             &:nth-child(3){
                 cursor: text;
             }
@@ -63,8 +74,7 @@
         th, td{
             border: 1px solid #dddddd;
             text-align: left;
-            padding-left: 8px;
-            padding-right: 4px;
+            padding: 7px 4px 7px 8px;
         }
     
     

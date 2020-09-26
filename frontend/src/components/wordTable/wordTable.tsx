@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import * as T from '../../types'
 import Word from '../word'
-import Tags from '../tags/tags'
 import Header from './header'
 import './wordTable.scss'
 import * as S from '../../storage/service'
@@ -125,23 +124,14 @@ const Entry = ({
     {word: T.WordEntry, activate: ()=>void, del: ()=>void, review: ()=>void, edit: ()=>void}) => {
     const {content, tags, description} = word.value
     const reviewed = word.reviewed
-    const [rtags, setRtags] = useState(tags)
-    const onAddition = (tag: T.Tag) => {
-        setRtags([...rtags, tag.name])
-    }
-    const onDelete = (i:number) => {
-        setRtags(rtags.filter((tag, index) => index !== i))
-    }
     return(
         <tr onClick={activate} className={reviewed ? "reviewed" : ""}>
             <td><div className="content">{<Word ps={content}/>}</div></td>
             <td><div className="description">{description}</div></td>
-            <td valign="top" onClick={e=>e.stopPropagation()}>
-                <Tags
-                    onAddition={onAddition}
-                    onDelete={onDelete}
-                    tags={rtags}
-                />
+            <td valign="top">
+                <div className="tags">
+                    {tags.map((t, i)=><span key={i}>{t}</span>)}
+                </div>
             </td>
             <td onClick={e=>e.stopPropagation()}>
                 <Controls del={del} review={review} reviewed={reviewed} edit={edit}/>

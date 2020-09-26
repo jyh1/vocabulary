@@ -19,4 +19,6 @@ export type WordEntry = KeyValue<Word> & {reviewed: boolean}
 export type Tag = {id: string, name: string}
 
 
+export type Insert = {type: "Insert", words: WordInfo[]}
 
+export type Query = Insert

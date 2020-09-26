@@ -69,6 +69,7 @@ export default ({}: Props) => {
                 init={editing === null ? null : words[editing].value}
                 cancel={()=>setEditing(null)}
                 toggleHide={()=>setHide(!hide)}
+                query={q=>console.log(q)}
             />
             <table className="word-table">
                 <thead>

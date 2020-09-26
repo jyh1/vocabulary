@@ -5,7 +5,7 @@ import Icon from '../icon'
 import Tags from '../tags/tags'
 import * as T from '../../types'
 import {serializeWordPieces} from '../../utils'
-import {parseWordPieces} from '../../parser/parser'
+import {parseWordPieces, parseQuery, parse, Pieces} from '../../parser/parser'
 
 
 type Props = {
@@ -13,6 +13,7 @@ type Props = {
     , init: T.WordInfo | null
     , cancel: ()=>void
     , toggleHide: ()=>void
+    , query: (q: T.Query)=>void
 }
 
 type AddWord = (w: T.WordInfo)=>Promise<void>
@@ -21,7 +22,7 @@ export default (props: Props) => {
     return(
         <div className="header">
             <Buttons {...props}/>
-            <Filter/>
+            <Filter query={props.query}/>
         </div>
     )
 }
@@ -50,6 +51,7 @@ const NewWord = ({addWord, init, cancel}: Props) => {
 
     const cancelEdit = () => {
         setActive(false)
+        setError(false)
         cancel()
     }
     
@@ -58,6 +60,7 @@ const NewWord = ({addWord, init, cancel}: Props) => {
             resetEditor()
         } else {
             setActive(true)
+            setError(false)
             descRef.current.value = init.description
             contRef.current.value = serializeWordPieces(init.content)
             setRtags(init.tags)
@@ -73,13 +76,7 @@ const NewWord = ({addWord, init, cancel}: Props) => {
     }
     const parenShortcut = (e: React.KeyboardEvent) =>{
         if (e.key==="Escape"){
-            const idx = contRef.current.selectionStart
-            if (idx !== null){
-                const text = contRef.current.value
-                contRef.current.value=text.slice(0, idx) + "()" + text.slice(idx)
-                contRef.current.selectionStart = idx + 1
-                contRef.current.selectionEnd = idx + 1
-            }
+            insertParens(contRef)
         }
         setError(false)
     }
@@ -97,6 +94,7 @@ const NewWord = ({addWord, init, cancel}: Props) => {
             .then(() => {resetEditor(); if (init !== null) cancelEdit()})
         } catch(e){
             setError(true)
+            console.log(e)
         }
     }
     return(
@@ -134,13 +132,45 @@ const NewWord = ({addWord, init, cancel}: Props) => {
 }
 
 
-const Filter = () => {
+const Filter = ({query}: {query: (q:T.Query)=>void}) => {
+    const [active, setActive] = useState(false)
+    const tref = useRef() as React.MutableRefObject<HTMLTextAreaElement>
+    const execute = ()=>{
+        if (tref.current) {
+            const txt = tref.current.value
+            query(parseQuery(txt))
+        }
+    }
+    const onKeyDown = (e: React.KeyboardEvent)=>{
+        if (e.key === "Escape"){
+            insertParens(tref)
+        }
+    }
     return(
         <div className="header-query">
-            <input type="text" spellCheck={false} placeholder="Input query..."/>
-            <span className="icon"><Icon icon="search"/></span>
+            <textarea 
+                onKeyDown={onKeyDown}
+                ref={tref}
+                rows={active ? 20 : 1}
+                placeholder="Input query"
+                onFocus={()=>setActive(true)}
+                onBlur={()=>setActive(false)}
+            />
+            <span
+                className="icon"
+                onClick={execute}
+                ><Icon icon="search"/></span>
         </div>
     )
 }
 
 
+function insertParens(ref: React.MutableRefObject<HTMLInputElement | HTMLTextAreaElement>){
+    const idx = ref.current.selectionStart
+    if (idx !== null){
+        const text = ref.current.value
+        ref.current.value=text.slice(0, idx) + "()" + text.slice(idx)
+        ref.current.selectionStart = idx + 1
+        ref.current.selectionEnd = idx + 1
+    }
+}

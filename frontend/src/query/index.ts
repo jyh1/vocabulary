@@ -1,6 +1,5 @@
 import * as T from '../types'
 import * as S from '../storage'
-import { assert } from 'console'
 
 export function executeInsert(insertEntries: T.Insert["words"]){
     let tags : {[t:string]: null} = {}
@@ -15,12 +14,20 @@ export function executeInsert(insertEntries: T.Insert["words"]){
     return S.addWords(words)
 }
 
+function diffDays(n1: number, n2: number){
+    return Math.round((n1 - n2) / (1000 * 60 * 60 * 24))
+}
+
 export function evalValue(v: T.Atom, w: T.Word): T.Result{
     switch (v.t){
         case T.AtomType.Tag:
             return w.tags.includes(v.v)
         case T.AtomType.Var:
-            return 0
+            switch (v.v){
+                case "review": return w.reviewtime
+                case "days": return  diffDays(Date.now(), w.lastreview.getTime())
+                default: throw Error(`Unknown variable ${v.v}`)
+            }
         case T.AtomType.Const:
             return v.v
     }

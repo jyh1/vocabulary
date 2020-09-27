@@ -28,6 +28,7 @@ enum Token {
     , Greater
     , LessEq
     , GreaterEq
+    , Variable
 }
 
 const lexer = buildLexer([
@@ -47,6 +48,7 @@ const lexer = buildLexer([
     [true, /^[>]/g, Token.Greater],
     [true, /^[=][=]/g, Token.Equal],
     [true, /^\#[a-zA-Z0-9]+/g, Token.Tag],
+    [true, /^\$[a-zA-Z0-9]+/g, Token.Variable],
     [true, /^\(/g, Token.LParen],
     [true, /^\)/g, Token.RParen],
     [false, /^[\s]+/g, Token.Space],
@@ -74,7 +76,9 @@ const Boolean = alt(apply(tok(Token.True), ()=>T.constant(true)),
                     apply(tok(Token.False), ()=>T.constant(false)))
 const Number = apply(tok(Token.Number), t => T.constant(+t.text))
 const Constant = alt(Boolean, Number)
-
+const Variable = apply(tok(Token.Variable), v=>T.makeVal(T.AtomType.Var as T.AtomType.Var, v.text.substr(1)))
+const TagExpr = apply(Tag, t=>T.makeVal(T.AtomType.Tag as T.AtomType.Tag, t))
+const Atom: P<T.Atom> = alt(TagExpr, Constant, Variable)
 type BinopInfo = [Token, (l: T.Expr, r: T.Expr)=>T.Expr]
 const BinopTable: BinopInfo[][] = [
     [[Token.Multiply, T.makeBin(T.Op.Multiply)], [Token.Divide, T.makeBin(T.Op.Divide)]],
@@ -91,7 +95,6 @@ const BinopTable: BinopInfo[][] = [
 
 ]
 const Expr = rule<Token, T.Expr>();
-const Atom: P<T.Atom> = alt(apply(Tag, t=>T.makeVal(T.AtomType.Tag, t)), Constant)
 const Term = alt(Atom, kmid(str('('), Expr, str(')')))
 
 let ExprParser: P<T.Expr> = Term

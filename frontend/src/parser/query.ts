@@ -16,10 +16,16 @@ enum Token {
     , Line
     , And
     , Or
+    , True
+    , False
+    , Number
 }
 
 const lexer = buildLexer([
     [true, /^Insert/gi, Token.Insert],
+    [true, /^true/gi, Token.True],
+    [true, /^false/gi, Token.False],
+    [true, /^\d+(\.\d+)?/g, Token.Number],
     [true, /^[&]/g, Token.And],
     [true, /^[|]/g, Token.Or],
     [true, /^\#[^\s#&|()]+/g, Token.Tag],
@@ -46,14 +52,19 @@ const Insert: P<T.Insert> =
     kright(tok(Token.Insert), apply(rep_sc(alt(WordInfo, Tags)), words=>({type: "Insert", words})))
 
 // Expression
+const Boolean = alt(apply(tok(Token.True), ()=>T.constant(true)), 
+                    apply(tok(Token.False), ()=>T.constant(false)))
+const Number = apply(tok(Token.Number), t => T.constant(+t.text))
+const Constant = alt(Boolean, Number)
+
 type BinopInfo = [Token, (l: T.Expr, r: T.Expr)=>T.Expr]
 const BinopTable: BinopInfo[][] = [
     [[Token.And, T.makeBin(T.Op.And)]],
     [[Token.Or, T.makeBin(T.Op.Or)]],
 ]
 const Expr = rule<Token, T.Expr>();
-const Value: P<T.Atom> = apply(Tag, t=>T.makeVal(T.AtomType.Tag, t))
-const Term = alt(Value, kmid(str('('), Expr, str(')')))
+const Atom: P<T.Atom> = alt(apply(Tag, t=>T.makeVal(T.AtomType.Tag, t)), Constant)
+const Term = alt(Atom, kmid(str('('), Expr, str(')')))
 
 let ExprParser: P<T.Expr> = Term
 
@@ -71,7 +82,7 @@ for(const opinfo of BinopTable){
 
 Expr.setPattern(ExprParser)
 
-const EmptyExpr: P<T.Expr> = apply(nil(), ()=>T.bool(true))
+const EmptyExpr: P<T.Expr> = apply(nil(), ()=>T.constant(true))
 
 const Query: P<T.Query> = alt(
       Insert

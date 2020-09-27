@@ -34,13 +34,14 @@ type AtomSkelton<T, V> = {type: ExprType.Atom, t: T, v: V}
 type TagAtm = AtomSkelton<AtomType.Tag, string>
 type VarAtm = AtomSkelton<AtomType.Var, string>
 type BoolConst = AtomSkelton<AtomType.Const, boolean>
+type NumConst = AtomSkelton<AtomType.Const, number>
 export function makeVal<T, V>(t: T, v: V): AtomSkelton<T, V>{
   return ({type: ExprType.Atom, t, v})
 }
-export function bool(b: boolean): AtomSkelton<AtomType.Const, boolean>{
+export function constant<T>(b: T): AtomSkelton<AtomType.Const, T>{
   return makeVal(AtomType.Const, b)
 }
-export type Atom = TagAtm | VarAtm | BoolConst
+export type Atom = TagAtm | VarAtm | BoolConst | NumConst
 
 
 export enum Op {

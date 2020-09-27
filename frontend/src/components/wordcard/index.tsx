@@ -1,7 +1,6 @@
 import React, {useEffect, useRef} from 'react'
 import momentjs from 'moment'
-import Modal from '../modal/modal'
-import Tags from '../tags/tags'
+import Modal from '../modal'
 import * as T from '../../types'
 import './wordcard.scss'
 import Content, {Description} from '../word'

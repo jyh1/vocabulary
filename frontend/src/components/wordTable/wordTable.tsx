@@ -3,9 +3,9 @@ import * as T from '../../types'
 import Word from '../word'
 import Header from './header'
 import './wordTable.scss'
-import * as S from '../../storage/service'
-import * as Q from '../../query/query'
-import WordCard from '../wordcard/wordcard'
+import * as S from '../../storage'
+import * as Q from '../../query'
+import WordCard from '../wordcard'
 import Icon from '../icon'
 
 type Props = {}

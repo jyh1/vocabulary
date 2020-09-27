@@ -1,5 +1,5 @@
 import * as T from '../types'
-import * as S from '../storage/service'
+import * as S from '../storage'
 
 export function executeInsert(insertEntries: T.Insert["words"]){
     let tags : {[t:string]: null} = {}

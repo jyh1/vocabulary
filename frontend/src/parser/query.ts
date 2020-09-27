@@ -71,8 +71,12 @@ for(const opinfo of BinopTable){
 
 Expr.setPattern(ExprParser)
 
+const EmptyExpr: P<T.Expr> = apply(nil(), ()=>T.bool(true))
 
-const Query: P<T.Query> = alt(Insert, apply(Expr, expr => ({type: "Filter", expr})))
+const Query: P<T.Query> = alt(
+      Insert
+    , apply(alt(Expr, EmptyExpr), expr => ({type: "Filter", expr}))
+    )
 
 
 export function parse<T>(parser: P<T>) {

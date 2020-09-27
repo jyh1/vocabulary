@@ -20,6 +20,8 @@ export function evalValue(v: T.Atom, w: T.Word): T.Result{
             return w.tags.includes(v.v)
         case T.AtomType.Var:
             return 0
+        case T.AtomType.Const:
+            return v.v
     }
 }
 

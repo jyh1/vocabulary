@@ -1,4 +1,4 @@
-import { type } from 'os'
+
 import * as T from './types'
 
 export function serializeWordPieces(ps: T.WordPieces): string {

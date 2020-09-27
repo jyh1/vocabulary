@@ -16,7 +16,6 @@ function tagReview(w: T.KeyValue<T.Word>):T.WordEntry{
 
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.WordEntry[])
-    const [query, setQuery] = useState("")
     const [hide, setHide] = useState(false)
     const [widx, _setWIdx] = useState(null as number | null)
     const [refreshSt, refresh] = useState(false)
@@ -63,12 +62,18 @@ export default ({}: Props) => {
 
     const executeQuery = (query: T.Query) => {
         console.log(query)
-        if (query.type === "Insert"){
-            Q.executeInsert(query.words).then(
-                newwords => {
-                    setWords([...newwords.map(tagReview), ...words])
-                }
-            )
+        switch(query.type){
+            case "Insert":
+                Q.executeInsert(query.words).then(
+                    newwords => {
+                        setWords([...newwords.map(tagReview), ...words])
+                    }
+                )
+                break
+            case "Filter":
+                S.listWords(Q.evalExpr(query.expr) as (w: T.Word)=>boolean)
+                    .then(ws => setWords(ws.map(tagReview)))
+                break
 
         }
     }

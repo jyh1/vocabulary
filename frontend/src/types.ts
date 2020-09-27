@@ -20,22 +20,22 @@ export type WordEntry = KeyValue<Word> & {reviewed: boolean}
 export type Tag = string
 
 export enum ExprType{
-    Value
+    Atom
   , Binop
 }
 
 
-export enum ValueType{
+export enum AtomType{
     Tag
   , Var
 }
-type Val<T, V> = {type: ExprType.Value, t: T, v: V}
-type TagVal = Val<ValueType.Tag, string>
-type VarVal = Val<ValueType.Var, string>
-export function makeVal<T, V>(t: T, v: V): Val<T, V>{
-  return ({type: ExprType.Value, t, v})
+type AtomSkelton<T, V> = {type: ExprType.Atom, t: T, v: V}
+type TagAtm = AtomSkelton<AtomType.Tag, string>
+type VarAtm = AtomSkelton<AtomType.Var, string>
+export function makeVal<T, V>(t: T, v: V): AtomSkelton<T, V>{
+  return ({type: ExprType.Atom, t, v})
 }
-export type Value = TagVal | VarVal
+export type Atom = TagAtm | VarAtm
 
 
 export enum Op {
@@ -47,15 +47,17 @@ export function makeBin(op: Op): (l: Expr, r: Expr)=>Binop{
   return (l, r) => ({type:ExprType.Binop, op, l, r})
 }
 
-export type Expr = Binop | Value
+export type Expr = Binop | Atom
 
 export type Insert = {
     type: "Insert"
   , words: (Omit<WordInfo, "tags"> | Tag[])[]
 }
 export type Filter = {
-    type: "filter"
+    type: "Filter"
   , expr: Expr 
 }
 
 export type Query = Insert | Filter
+
+export type Result = number | boolean

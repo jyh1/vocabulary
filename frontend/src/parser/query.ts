@@ -52,7 +52,7 @@ const BinopTable: BinopInfo[][] = [
     [[Token.Or, T.makeBin(T.Op.Or)]],
 ]
 const Expr = rule<Token, T.Expr>();
-const Value: P<T.Value> = apply(Tag, t=>T.makeVal(T.ValueType.Tag, t))
+const Value: P<T.Atom> = apply(Tag, t=>T.makeVal(T.AtomType.Tag, t))
 const Term = alt(Value, kmid(str('('), Expr, str(')')))
 
 let ExprParser: P<T.Expr> = Term
@@ -72,7 +72,7 @@ for(const opinfo of BinopTable){
 Expr.setPattern(ExprParser)
 
 
-const Query: P<T.Query> = alt(Insert, apply(Expr, expr => ({type: "filter", expr})))
+const Query: P<T.Query> = alt(Insert, apply(Expr, expr => ({type: "Filter", expr})))
 
 
 export function parse<T>(parser: P<T>) {

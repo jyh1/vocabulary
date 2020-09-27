@@ -15,7 +15,7 @@ const lexer = buildLexer([
     [true, /^\)/g, Token.RParen],
 ])
 
-export type P<T> = Parser<Token, T>
+type P<T> = Parser<Token, T>
 
 const Character: P<string> = apply(tok(Token.Character), v => v.text)
 

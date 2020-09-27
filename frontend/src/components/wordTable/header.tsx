@@ -5,7 +5,7 @@ import Icon from '../icon'
 import Tags from '../tags/tags'
 import * as T from '../../types'
 import {serializeWordPieces} from '../../utils'
-import {parseWordPieces, parseQuery} from '../../parser/parser'
+import {parseWordPieces, parseQuery} from '../../parser'
 
 
 type Props = {

@@ -47,6 +47,15 @@ export type Atom = TagAtm | VarAtm | BoolConst | NumConst
 export enum Op {
   And
 , Or
+, Add
+, Minus
+, Divide
+, Multiply
+, Equal
+, Less
+, Greater
+, LessEq
+, GreaterEq
 }
 export type Binop = {type: ExprType.Binop, op: Op, l: Expr, r: Expr}
 export function makeBin(op: Op): (l: Expr, r: Expr)=>Binop{

@@ -19,6 +19,15 @@ enum Token {
     , True
     , False
     , Number
+    , Add
+    , Minus
+    , Divide
+    , Multiply
+    , Equal
+    , Less
+    , Greater
+    , LessEq
+    , GreaterEq
 }
 
 const lexer = buildLexer([
@@ -28,7 +37,16 @@ const lexer = buildLexer([
     [true, /^\d+(\.\d+)?/g, Token.Number],
     [true, /^[&]/g, Token.And],
     [true, /^[|]/g, Token.Or],
-    [true, /^\#[^\s#&|()]+/g, Token.Tag],
+    [true, /^[+]/g, Token.Add],
+    [true, /^[-]/g, Token.Minus],
+    [true, /^[*]/g, Token.Multiply],
+    [true, /^[/]/g, Token.Divide],
+    [true, /^[<][=]/g, Token.LessEq],
+    [true, /^[>][=]/g, Token.GreaterEq],
+    [true, /^[<]/g, Token.Less],
+    [true, /^[>]/g, Token.Greater],
+    [true, /^[=][=]/g, Token.Equal],
+    [true, /^\#[a-zA-Z0-9]+/g, Token.Tag],
     [true, /^\(/g, Token.LParen],
     [true, /^\)/g, Token.RParen],
     [false, /^[\s]+/g, Token.Space],
@@ -59,8 +77,18 @@ const Constant = alt(Boolean, Number)
 
 type BinopInfo = [Token, (l: T.Expr, r: T.Expr)=>T.Expr]
 const BinopTable: BinopInfo[][] = [
+    [[Token.Multiply, T.makeBin(T.Op.Multiply)], [Token.Divide, T.makeBin(T.Op.Divide)]],
+    [[Token.Add, T.makeBin(T.Op.Add)], [Token.Minus, T.makeBin(T.Op.Minus)]],
+    [
+        [Token.Equal, T.makeBin(T.Op.Equal)],
+        [Token.Less, T.makeBin(T.Op.Less)],
+        [Token.Greater, T.makeBin(T.Op.Greater)],
+        [Token.GreaterEq, T.makeBin(T.Op.GreaterEq)],
+        [Token.LessEq, T.makeBin(T.Op.LessEq)],
+    ],
     [[Token.And, T.makeBin(T.Op.And)]],
     [[Token.Or, T.makeBin(T.Op.Or)]],
+
 ]
 const Expr = rule<Token, T.Expr>();
 const Atom: P<T.Atom> = alt(apply(Tag, t=>T.makeVal(T.AtomType.Tag, t)), Constant)

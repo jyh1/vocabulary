@@ -20,6 +20,10 @@ export default ({}: Props) => {
     const [widx, _setWIdx] = useState(null as number | null)
     const [refreshSt, refresh] = useState(false)
     const [editing, setEditing] = useState(null as number | null)
+    const [vocabSize, setVocabSize] = useState(0)
+
+    useEffect(()=>{S.vocabularySize().then(setVocabSize)})
+
     useEffect(()=>{
         S.listWords().then(ws => setWords(ws.map(tagReview)))
     }, [])
@@ -88,6 +92,9 @@ export default ({}: Props) => {
                 toggleHide={()=>setHide(!hide)}
                 query={executeQuery}
             />
+            <div className="table_info">
+                {words.length} out of {vocabSize} words selected.
+            </div>
             <table className="word-table">
                 <thead>
                     <tr>

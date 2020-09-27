@@ -32,9 +32,9 @@ const WordInfo: P<Omit<T.WordInfo, "tags">> =
     apply(seq(Line, Line),
         ([content, description]) => ({content: parseWordPieces(content), description}))
 
-const Tag: P<string> = apply(tok(Token.Tag), v => v.text.substr(1))
+const Tag: P<T.Tag> = apply(tok(Token.Tag), v => v.text.substr(1))
 
-const Tags: P<string[]> = list_sc(Tag, nil())
+const Tags: P<T.Tag[]> = list_sc(Tag, nil())
 
 const Insert: P<T.Insert> = 
     kright(tok(Token.Insert), apply(rep_sc(alt(WordInfo, Tags)), words=>({type: "Insert", words})))

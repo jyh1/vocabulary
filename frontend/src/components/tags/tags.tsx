@@ -1,13 +1,11 @@
 import React from 'react'
 import ReactTags from 'react-tag-autocomplete'
 
-import {Tag} from '../../types'
-import Icon from '../icon'
 import './tags.scss'
 
 
 
-const TagComponent = ({ tag, onDelete}: {tag: Tag, onDelete: any}) => {
+const TagComponent = ({ tag, onDelete}: {tag: {name: string}, onDelete: any}) => {
     return (
       <div className="word-tag">
         {tag.name}
@@ -19,7 +17,7 @@ const TagComponent = ({ tag, onDelete}: {tag: Tag, onDelete: any}) => {
 type Props = {
       tags: string[]
     , onDelete: (i:number)=>void
-    , onAddition: (tag: Tag)=>void
+    , onAddition: (tag: {name: string})=>void
     }
 
 export default ({tags, onDelete, onAddition}: Props) => {

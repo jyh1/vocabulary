@@ -16,12 +16,12 @@ export type KeyValue<T> = {key: string, value: T}
 
 export type WordEntry = KeyValue<Word> & {reviewed: boolean}
 
-export type Tag = {id: string, name: string}
 
+export type Tag = string
 
 export type Insert = {
     type: "Insert"
-  , words: (Omit<WordInfo, "tags"> | string[])[]
-  }
+  , words: (Omit<WordInfo, "tags"> | Tag[])[]
+  }  
 
 export type Query = Insert

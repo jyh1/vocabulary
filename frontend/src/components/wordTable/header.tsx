@@ -71,7 +71,7 @@ const NewWord = ({addWord, init, cancel}: Props) => {
     const delTag = (i:number) =>{
         setRtags(rtags.filter((_, j)=>j!==i))
     }
-    const addTag = (tag: T.Tag)=>{
+    const addTag = (tag: {name: string})=>{
         setRtags([...rtags, tag.name])
     }
     const parenShortcut = (e: React.KeyboardEvent) =>{

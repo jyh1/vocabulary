@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import momentjs from 'moment'
 import Modal from '../modal'
 import * as T from '../../types'
@@ -24,13 +24,19 @@ export default (props: Props) => {
     )
 }
 
-const Card = ({word, prevWord, nextWord, onClose, review, index}: Props)=>{
+const Card = ({word, prevWord: _prevWord, nextWord: _nextWord, onClose, review, index}: Props)=>{
     const {value:{content, description, tags, lastreview, reviewtime}, reviewed} = word
     const {widx, length} = index
+
+    const [uncover, setUncover] = useState(false)
 
     const hasPrev = widx > 0
     const hasNext = widx < length - 1
     const disableCls = (test: boolean, cls: string) => cls + (test ? " disabled" :  "")
+
+    const prevWord = () => {setUncover(false); _prevWord()}
+    const nextWord = () => {setUncover(false); _nextWord()}
+
 
     const since = momentjs(lastreview).fromNow()
 
@@ -50,6 +56,10 @@ const Card = ({word, prevWord, nextWord, onClose, review, index}: Props)=>{
                 break
             case "d":
                 nextWord()
+                break
+            case "w":
+                setUncover(true)
+                break
         }
     }
 
@@ -69,7 +79,7 @@ const Card = ({word, prevWord, nextWord, onClose, review, index}: Props)=>{
             <div className="wordcard-nav">
 
                 <div className="wordcard">                    
-                    <div className="content">
+                    <div className={"content" + (uncover ? " uncover": "")}>
                         <Content ps={content}/>
                     </div>
                     <div className="tags">

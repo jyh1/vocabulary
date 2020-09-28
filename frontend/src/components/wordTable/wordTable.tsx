@@ -65,7 +65,7 @@ export default ({}: Props) => {
     }
 
     const executeQuery = (query: T.Query) => {
-        console.log(query)
+        // console.log(query)
         switch(query.type){
             case "Insert":
                 Q.executeInsert(query.words).then(

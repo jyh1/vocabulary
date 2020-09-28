@@ -30,13 +30,14 @@ enum Token {
     , GreaterEq
     , Variable
     , Delete
-    , Limit
+    , Slice
     , Orderby
 }
 
 const lexer = buildLexer([
     [true, /^Insert/gi, Token.Insert],
     [true, /^Delete/gi, Token.Delete],
+    [true, /^Orderby/gi, Token.Orderby],
     [true, /^true/gi, Token.True],
     [true, /^false/gi, Token.False],
     [true, /^\d+(\.\d+)?/g, Token.Number],
@@ -119,7 +120,10 @@ Expr.setPattern(ExprParser)
 
 // Statement parser
 const Delete: P<T.Delete> = apply(tok(Token.Delete), ()=>({type: T.StmtType.Delete}))
-const Stmt: P<T.Stmt> = Delete
+const Orderby: P<T.Orderby> = 
+    apply(kright(tok(Token.Orderby), Expr)
+    , value =>({type: T.StmtType.Orderby, value}))
+const Stmt: P<T.Stmt> = alt(Delete, Orderby)
 const Stmts: P<T.Stmts> = rep_sc(Stmt)
 
 const EmptyExpr: P<T.Expr> = apply(nil(), ()=>T.constant(true))

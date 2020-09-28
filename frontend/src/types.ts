@@ -72,11 +72,11 @@ export type Insert = {
 export enum StmtType{
     Delete
   , Orderby
-  , Limit
+  , Slice
 }
 export type Delete = {type: StmtType.Delete}
 export type Orderby = {type: StmtType.Orderby, value: Expr}
-export type Limit = {type: StmtType.Limit, size: number}
+export type Limit = {type: StmtType.Slice, size: number}
 export type Stmt = 
   Delete | Orderby | Limit
 

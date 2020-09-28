@@ -14,6 +14,7 @@ type Props = {
     , cancel: ()=>void
     , toggleHide: ()=>void
     , query: (q: T.Query)=>void
+    , export: () => void
 }
 
 type AddWord = (w: T.WordInfo)=>Promise<void>
@@ -32,6 +33,7 @@ const Buttons = (props: Props) =>{
         <div className="header-buttons">
             <NewWord {...props}/>
             <button onClick={props.toggleHide}><Icon icon="eye-slash"/></button>
+            <button onClick={props.export}><Icon icon="file-download"/> </button>
         </div>
     )
 }

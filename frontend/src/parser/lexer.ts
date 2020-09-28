@@ -31,6 +31,7 @@ class TokenImpl<T> implements Token<T> {
 }
 
 class LexerImpl<T> implements Lexer<T> {
+    _rules: [boolean, RegExp, T][]
     constructor(public rules: [boolean, RegExp, T][]) {
         for (const rule of this.rules) {
             if (rule[1].source[0] !== '^') {
@@ -40,9 +41,11 @@ class LexerImpl<T> implements Lexer<T> {
                 throw new Error(`Regular expression patterns for a tokenizer should be global: ${rule[1].source}`);
             }
         }
+        this._rules = rules
     }
 
     public parse(input: string): TokenImpl<T> | undefined {
+        this.rules = this._rules
         return this.parseNextAvailable(input, 0, 1, 1);
     }
 
@@ -78,6 +81,9 @@ class LexerImpl<T> implements Lexer<T> {
                 `Unable to tokenize the rest of the input: ${input.substr(indexStart)}`
             );
         } else {
+            if (/^insert/gi.test(result.text)){
+                this.rules = this.rules.slice(-3)
+            }
             return result;
         }
     }

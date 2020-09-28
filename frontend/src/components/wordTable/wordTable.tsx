@@ -7,6 +7,7 @@ import * as S from '../../storage'
 import * as Q from '../../query'
 import WordCard from '../wordcard'
 import Icon from '../icon'
+import {downloadVocabulary} from '../../utils'
 
 type Props = {}
 
@@ -92,6 +93,7 @@ export default ({}: Props) => {
                 cancel={()=>setEditing(null)}
                 toggleHide={()=>setHide(!hide)}
                 query={executeQuery}
+                export={()=>downloadVocabulary(words)}
             />
             <div className="table_info">
                 {words.length} out of {vocabSize} words selected.

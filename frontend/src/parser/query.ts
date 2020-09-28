@@ -55,10 +55,11 @@ const lexer = buildLexer([
     [true, /^[>]/g, Token.Greater],
     [true, /^[=]{2}/g, Token.Equal],
     [true, /^[:]/g, Token.Colon],
-    [true, /^\#[a-zA-Z0-9]+/g, Token.Tag],
     [true, /^\$[a-zA-Z0-9]+/g, Token.Variable],
     [true, /^\(/g, Token.LParen],
     [true, /^\)/g, Token.RParen],
+    // keep at last
+    [true, /^\#[a-zA-Z0-9]+/g, Token.Tag],
     [false, /^[\s]+/g, Token.Space],
     [true, /^[^\s][^\n]*/g, Token.Line],
 ])

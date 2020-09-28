@@ -12,19 +12,14 @@ export async function saveWord(key: string, word: T.Word){
 }
 
 export async function addWord(word: T.WordInfo){
-    const key = Date.now().toString()
+    const key = Date.now().toString() + "." + Math.round(Math.random()*10000)
     const newword: T.Word = {...word, reviewtime: 1, lastreview: new Date()}
     await saveWord(key, newword)
     return {key, value: newword} as T.KeyValue<T.Word>
 }
 
 export async function addWords(words: T.WordInfo[]){
-    // return await Promise.all(words.map(addWord))
-    let res: T.KeyValue<T.Word>[] = []
-    for(const w of words){
-        res.push(await addWord(w))
-    }
-    return res
+    return await Promise.all(words.map(addWord))
 }
 
 export async function updateWord(key: string, f: (w:T.Word)=> T.Word){

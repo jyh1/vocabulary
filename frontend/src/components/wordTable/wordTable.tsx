@@ -22,6 +22,7 @@ export default ({}: Props) => {
     const [refreshSt, refresh] = useState(false)
     const [editing, setEditing] = useState(null as number | null)
     const [vocabSize, setVocabSize] = useState(0)
+    const [busy, setBusy] = useState(false)
 
     useEffect(()=>{S.vocabularySize().then(setVocabSize)})
 
@@ -67,25 +68,27 @@ export default ({}: Props) => {
 
     const executeQuery = (query: T.Query) => {
         // console.log(query)
+        setBusy(true)
+        let task: Promise<void>
         switch(query.type){
             case "Insert":
-                Q.executeInsert(query.words).then(
+                task = Q.executeInsert(query.words).then(
                     newwords => {
                         setWords([...newwords.map(tagReview), ...words])
                     }
                 )
                 break
             case "Filter":
-                S.listWords(Q.evalExpr(query.expr) as (w: T.Word)=>boolean)
+                task = S.listWords(Q.evalExpr(query.expr) as (w: T.Word)=>boolean)
                     .then(ws => Q.execStmts(query.stmts, ws.map(tagReview)))
                     .then(setWords)
                 break
-
         }
+        task.then(()=>setBusy(false))
     }
 
     return(
-        <div className={hide? "hide" : ""}>
+        <div className={(hide? "hide" : "") + (busy? " busy" : "")}>
         <div className="vocabulary">
             <Header 
                 addWord={editing === null ? addWord : editWord(editing)}

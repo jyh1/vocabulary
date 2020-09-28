@@ -11,8 +11,10 @@ export async function saveWord(key: string, word: T.Word){
     return key
 }
 
+let SESSIONCOUNT = 0
+
 export async function addWord(word: T.WordInfo){
-    const key = Date.now().toString() + "." + Math.round(Math.random()*10000)
+    const key = Date.now().toString() + "." + (SESSIONCOUNT ++)
     const newword: T.Word = {...word, reviewtime: 1, lastreview: new Date()}
     await saveWord(key, newword)
     return {key, value: newword} as T.KeyValue<T.Word>

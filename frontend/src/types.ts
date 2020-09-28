@@ -76,9 +76,9 @@ export enum StmtType{
 }
 export type Delete = {type: StmtType.Delete}
 export type Orderby = {type: StmtType.Orderby, value: Expr}
-export type Limit = {type: StmtType.Slice, size: number}
+export type Slice = {type: StmtType.Slice, start: number | undefined, end: number | undefined}
 export type Stmt = 
-  Delete | Orderby | Limit
+  Delete | Orderby | Slice
 
 export type Stmts = Stmt[]
 

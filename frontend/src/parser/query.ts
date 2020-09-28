@@ -32,12 +32,14 @@ enum Token {
     , Delete
     , Slice
     , Orderby
+    , Colon
 }
 
 const lexer = buildLexer([
     [true, /^Insert/gi, Token.Insert],
     [true, /^Delete/gi, Token.Delete],
     [true, /^Orderby/gi, Token.Orderby],
+    [true, /^Slice/gi, Token.Slice],
     [true, /^true/gi, Token.True],
     [true, /^false/gi, Token.False],
     [true, /^\d+(\.\d+)?/g, Token.Number],
@@ -52,6 +54,7 @@ const lexer = buildLexer([
     [true, /^[<]/g, Token.Less],
     [true, /^[>]/g, Token.Greater],
     [true, /^[=]{2}/g, Token.Equal],
+    [true, /^[:]/g, Token.Colon],
     [true, /^\#[a-zA-Z0-9]+/g, Token.Tag],
     [true, /^\$[a-zA-Z0-9]+/g, Token.Variable],
     [true, /^\(/g, Token.LParen],
@@ -79,7 +82,8 @@ const Insert: P<T.Insert> =
 // Expression
 const Boolean = alt(apply(tok(Token.True), ()=>T.constant(true)), 
                     apply(tok(Token.False), ()=>T.constant(false)))
-const Number = apply(tok(Token.Number), t => T.constant(+t.text))
+const Num = apply(tok(Token.Number), t => +t.text)
+const Number = apply(Num, t => T.constant(t))
 const Constant = alt(Boolean, Number)
 const Variable = apply(tok(Token.Variable), v=>T.makeVal(T.AtomType.Var as T.AtomType.Var, v.text.substr(1)))
 const TagExpr = apply(Tag, t=>T.makeVal(T.AtomType.Tag as T.AtomType.Tag, t))
@@ -123,7 +127,12 @@ const Delete: P<T.Delete> = apply(tok(Token.Delete), ()=>({type: T.StmtType.Dele
 const Orderby: P<T.Orderby> = 
     apply(kright(tok(Token.Orderby), Expr)
     , value =>({type: T.StmtType.Orderby, value}))
-const Stmt: P<T.Stmt> = alt(Delete, Orderby)
+const SliceIndex = seq(opt_sc(Num), tok(Token.Colon), opt_sc(Num))
+const Slice: P<T.Slice> = apply(
+    kright(tok(Token.Slice), SliceIndex)
+    , ([n1, _, n2]) => ({type: T.StmtType.Slice, start: n1, end: n2})
+    )
+const Stmt: P<T.Stmt> = alt(Delete, Orderby, Slice)
 const Stmts: P<T.Stmts> = rep_sc(Stmt)
 
 const EmptyExpr: P<T.Expr> = apply(nil(), ()=>T.constant(true))

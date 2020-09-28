@@ -20,6 +20,14 @@ function orderbyStmt(expr: T.Expr): StmtFun{
     return (ws: T.WordEntry[]) => new Promise(resolve => resolve(sortBy(ws, compute)))
 }
 
+function sliceStmt(start: number | undefined, end: number | undefined): StmtFun{
+
+    return (ws: T.WordEntry[]) => 
+        new Promise(resolve => resolve(ws.slice(
+            start === undefined ? 0 : start, 
+            end === undefined ? ws.length : end)))
+}
+
 const id: StmtFun = ws => (new Promise(resolve => resolve(ws)))
 
 function execStmt(t: T.Stmt): StmtFun{
@@ -28,8 +36,8 @@ function execStmt(t: T.Stmt): StmtFun{
             return delStmt
         case T.StmtType.Orderby:
             return orderbyStmt(t.value)
-        default:
-            return id
+        case T.StmtType.Slice:
+            return sliceStmt(t.start, t.end)
     }
 }
 

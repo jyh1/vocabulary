@@ -68,9 +68,25 @@ export type Insert = {
     type: "Insert"
   , words: (Omit<WordInfo, "tags"> | Tag[])[]
 }
+
+export enum StmtType{
+    Delete
+  , Orderby
+  , Limit
+}
+export type Delete = {type: StmtType.Delete}
+export type Orderby = {type: StmtType.Orderby, value: Expr}
+export type Limit = {type: StmtType.Limit, size: number}
+export type Stmt = 
+  Delete | Orderby | Limit
+
+export type Stmts = Stmt[]
+
+
 export type Filter = {
     type: "Filter"
   , expr: Expr 
+  , stmts: Stmts
 }
 
 export type Query = Insert | Filter

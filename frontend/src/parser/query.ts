@@ -29,10 +29,14 @@ enum Token {
     , LessEq
     , GreaterEq
     , Variable
+    , Delete
+    , Limit
+    , Orderby
 }
 
 const lexer = buildLexer([
     [true, /^Insert/gi, Token.Insert],
+    [true, /^Delete/gi, Token.Delete],
     [true, /^true/gi, Token.True],
     [true, /^false/gi, Token.False],
     [true, /^\d+(\.\d+)?/g, Token.Number],
@@ -113,11 +117,18 @@ for(const opinfo of BinopTable){
 
 Expr.setPattern(ExprParser)
 
+// Statement parser
+const Delete: P<T.Delete> = apply(tok(Token.Delete), ()=>({type: T.StmtType.Delete}))
+const Stmt: P<T.Stmt> = Delete
+const Stmts: P<T.Stmts> = rep_sc(Stmt)
+
 const EmptyExpr: P<T.Expr> = apply(nil(), ()=>T.constant(true))
+
+const MainExpr: P<T.Expr> = alt(Expr, EmptyExpr)
 
 const Query: P<T.Query> = alt(
       Insert
-    , apply(alt(Expr, EmptyExpr), expr => ({type: "Filter", expr}))
+    , apply(seq(MainExpr, Stmts), ([expr, stmts]) => ({type: "Filter", expr, stmts}))
     )
 
 

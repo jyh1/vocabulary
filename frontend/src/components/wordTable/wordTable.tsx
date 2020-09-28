@@ -76,7 +76,8 @@ export default ({}: Props) => {
                 break
             case "Filter":
                 S.listWords(Q.evalExpr(query.expr) as (w: T.Word)=>boolean)
-                    .then(ws => setWords(ws.map(tagReview)))
+                    .then(ws => Q.execStmts(query.stmts, ws.map(tagReview)))
+                    .then(setWords)
                 break
 
         }

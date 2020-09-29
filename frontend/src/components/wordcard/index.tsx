@@ -58,7 +58,7 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord, onClose, review, 
                 nextWord()
                 break
             case "w":
-                setUncover(true)
+                setUncover(!uncover)
                 break
         }
     }

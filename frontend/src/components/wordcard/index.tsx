@@ -27,7 +27,9 @@ export default (props: Props) => {
 }
 
 const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
-    , onClose, review, index, prevUnreviewed, nextUnreviewed}: Props)=>{
+    , onClose, review, index, 
+    prevUnreviewed: _prevUnreviewed, 
+    nextUnreviewed: _nextUnreviewed}: Props)=>{
     const {value:{content, description, tags, lastreview, reviewtime}, reviewed} = word
     const {widx, length} = index
 
@@ -36,9 +38,12 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
     const hasPrev = widx > 0
     const hasNext = widx < length - 1
     const disableCls = (test: boolean, cls: string) => cls + (test ? " disabled" :  "")
-
-    const prevWord = () => {setUncover(false); _prevWord()}
-    const nextWord = () => {setUncover(false); _nextWord()}
+    
+    const changeAction= (act: ()=>void)=> (()=>{setUncover(false); act()})
+    const prevWord = changeAction(_prevWord)
+    const nextWord = changeAction(_nextWord)
+    const nextUnreviewed = changeAction(_nextUnreviewed)
+    const prevUnreviewed = changeAction(_prevUnreviewed)
 
 
     const since = momentjs(lastreview).fromNow()
@@ -61,7 +66,7 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
                 nextWord()
                 break
             case "w":
-                setUncover(true)
+                setUncover(!uncover)
                 break
             case "q":
                 prevUnreviewed()

@@ -33,10 +33,12 @@ enum Token {
     , Slice
     , Orderby
     , Colon
+    , NewSession
 }
 
 const lexer = buildLexer([
     [true, /^Insert/gi, Token.Insert],
+    [true, /^clear/gi, Token.NewSession],
     [true, /^Delete/gi, Token.Delete],
     [true, /^Orderby/gi, Token.Orderby],
     [true, /^Slice/gi, Token.Slice],
@@ -79,6 +81,8 @@ const Tags: P<T.Tag[]> = list_sc(Tag, nil())
 
 const Insert: P<T.Insert> = 
     kright(tok(Token.Insert), apply(rep_sc(alt(WordInfo, Tags)), words=>({type: "Insert", words})))
+
+const NewSession: P<T.NewSession> = apply(tok(Token.NewSession), ()=> ({type:"NewSession"}))
 
 // Expression
 const Boolean = alt(apply(tok(Token.True), ()=>T.constant(true)), 
@@ -142,6 +146,7 @@ const MainExpr: P<T.Expr> = alt(Expr, EmptyExpr)
 
 const Query: P<T.Query> = alt(
       Insert
+    , NewSession
     , apply(seq(MainExpr, Stmts), ([expr, stmts]) => ({type: "Filter", expr, stmts}))
     )
 

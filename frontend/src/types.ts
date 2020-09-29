@@ -69,6 +69,10 @@ export type Insert = {
   , words: (Omit<WordInfo, "tags"> | Tag[])[]
 }
 
+export type NewSession = {
+  type: "NewSession"
+}
+
 export enum StmtType{
     Delete
   , Orderby
@@ -89,6 +93,6 @@ export type Filter = {
   , stmts: Stmts
 }
 
-export type Query = Insert | Filter
+export type Query = Insert | Filter | NewSession
 
 export type Result = number | boolean

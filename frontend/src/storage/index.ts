@@ -24,9 +24,9 @@ export async function addWords(words: T.WordInfo[]){
     return await Promise.all(words.map(addWord))
 }
 
-export async function updateWord(key: string, f: (w:T.Word)=> T.Word){
+export async function updateWord<T extends T.Word | undefined>(key: string, f: (w:T.Word)=> T){
     const newword = f(await vocabulary.getItem(key) as T.Word)
-    await saveWord(key, newword)
+    if (newword !== undefined) await saveWord(key, newword as T.Word)
     return newword
 }
 
@@ -39,6 +39,7 @@ export async function reviewWord(key: string){
     }
     return await updateWord(key, update)
 }
+
 
 export async function updateWordField<K extends keyof T.Word, V extends T.Word[K]>(key: string, field: K, val: V){
     const update = (w: T.Word) => {
@@ -66,4 +67,21 @@ export async function delWord(key: string){
 
 export async function vocabularySize(){
     return await vocabulary.length()
+}
+
+export async function clearWord(key: string){
+    const update = (w: T.Word) => {
+        if (w.reviewed){
+            w.reviewed = false
+            return w
+        }
+        return undefined
+    }
+    await updateWord(key, update)
+}
+
+
+export async function newSession(){
+    const keys = await vocabulary.keys()
+    await Promise.all(keys.map(clearWord))
 }

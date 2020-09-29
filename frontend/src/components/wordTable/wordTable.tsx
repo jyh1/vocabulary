@@ -22,9 +22,9 @@ export default ({}: Props) => {
 
     useEffect(()=>{S.vocabularySize().then(setVocabSize)})
 
-    useEffect(()=>{
-        S.listWords().then(ws => setWords(ws))
-    }, [])
+    const init = () => {S.listWords().then(ws => setWords(ws))}
+
+    useEffect(init, [])
 
     const setWIdx = (i: number | null) => {
         if (i === null) _setWIdx(null)
@@ -79,6 +79,8 @@ export default ({}: Props) => {
                     .then(ws => Q.execStmts(query.stmts, ws))
                     .then(setWords)
                 break
+            case "NewSession":
+                task = S.newSession().then(init)
         }
         task.then(()=>setBusy(false))
     }

@@ -87,6 +87,29 @@ export default ({}: Props) => {
         task.then(()=>setBusy(false))
     }
 
+    const nextUnreviewed = () => {
+        if (widx !== null){
+            for(let i = widx+1; i < words.length; i ++){
+                if (!words[i].reviewed) {
+                    setWIdx(i)
+                    break
+                }
+            }
+            
+        }
+    }
+
+    const prevUnreviewed = () => {
+        if (widx !== null){
+            for(let i = widx-1; i >= 0; i --){
+                if (!words[i].reviewed){
+                    setWIdx(i)
+                    break
+                }
+            }
+        }
+    }
+
     return(
         <div className={(hide? "hide" : "") + (busy? " busy" : "")}>
         <div className="vocabulary">
@@ -131,6 +154,8 @@ export default ({}: Props) => {
             review={()=>review(widx)}
             word={words[widx]}
             index={{widx, length: words.length}}
+            prevUnreviewed={prevUnreviewed}
+            nextUnreviewed={nextUnreviewed}
         />: <></>}
         </div>
     )

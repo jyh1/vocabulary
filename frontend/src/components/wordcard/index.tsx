@@ -14,6 +14,8 @@ type Props = {
     , onClose: ()=>void
     , review: ()=>void
     , index: {widx: number, length: number}
+    , prevUnreviewed: ()=>void
+    , nextUnreviewed: ()=>void
 }
 
 export default (props: Props) => {
@@ -24,7 +26,8 @@ export default (props: Props) => {
     )
 }
 
-const Card = ({word, prevWord: _prevWord, nextWord: _nextWord, onClose, review, index}: Props)=>{
+const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
+    , onClose, review, index, prevUnreviewed, nextUnreviewed}: Props)=>{
     const {value:{content, description, tags, lastreview, reviewtime}, reviewed} = word
     const {widx, length} = index
 
@@ -58,7 +61,13 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord, onClose, review, 
                 nextWord()
                 break
             case "w":
-                setUncover(!uncover)
+                setUncover(true)
+                break
+            case "q":
+                prevUnreviewed()
+                break
+            case "e":
+                nextUnreviewed()
                 break
         }
     }

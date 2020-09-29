@@ -80,8 +80,11 @@ export async function clearWord(key: string){
     await updateWord(key, update)
 }
 
+export async function clearWords(keys: string[]){
+    await Promise.all(keys.map(clearWord))
+}
 
 export async function newSession(){
     const keys = await vocabulary.keys()
-    await Promise.all(keys.map(clearWord))
+    clearWords(keys)
 }

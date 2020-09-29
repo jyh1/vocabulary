@@ -10,11 +10,11 @@ export type WordInfo = {
   , tags: string[]
 }
 
-export type Word = WordInfo & {reviewtime: number, lastreview: Date}
+export type Word = WordInfo & {reviewtime: number, lastreview: Date, reviewed: boolean}
 
 export type KeyValue<T> = {key: string, value: T}
 
-export type WordEntry = KeyValue<Word> & {reviewed: boolean}
+export type WordEntry = KeyValue<Word>
 
 
 export type Tag = string

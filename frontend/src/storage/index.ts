@@ -15,7 +15,7 @@ let SESSIONCOUNT = 0
 
 export async function addWord(word: T.WordInfo){
     const key = Date.now().toString() + "." + (SESSIONCOUNT ++)
-    const newword: T.Word = {...word, reviewtime: 1, lastreview: new Date()}
+    const newword: T.Word = {...word, reviewtime: 1, lastreview: new Date(), reviewed: false}
     await saveWord(key, newword)
     return {key, value: newword} as T.KeyValue<T.Word>
 }
@@ -34,6 +34,7 @@ export async function reviewWord(key: string){
     const update = (w: T.Word) => {
         w.reviewtime += 1
         w.lastreview = new Date()
+        w.reviewed = true
         return w
     }
     return await updateWord(key, update)

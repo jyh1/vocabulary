@@ -11,10 +11,6 @@ import {downloadVocabulary} from '../../utils'
 
 type Props = {}
 
-function tagReview(w: T.KeyValue<T.Word>):T.WordEntry{
-    return {...w, reviewed: false}
-}
-
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.WordEntry[])
     const [hide, setHide] = useState(false)
@@ -27,7 +23,7 @@ export default ({}: Props) => {
     useEffect(()=>{S.vocabularySize().then(setVocabSize)})
 
     useEffect(()=>{
-        S.listWords().then(ws => setWords(ws.map(tagReview)))
+        S.listWords().then(ws => setWords(ws))
     }, [])
 
     const setWIdx = (i: number | null) => {
@@ -36,7 +32,7 @@ export default ({}: Props) => {
     }
 
     const addWord = (w: T.WordInfo) => {
-        return S.addWord(w).then(wi => setWords([tagReview(wi), ...words]))
+        return S.addWord(w).then(wi => setWords([wi, ...words]))
     }
 
     const editWord = (i: number) => {
@@ -56,11 +52,11 @@ export default ({}: Props) => {
     }
 
     const review = (i: number | null) => {
-        if (i !==null && !words[i].reviewed) {
+        if (i !==null && !words[i].value.reviewed) {
             const key = words[i].key
             S.reviewWord(key)
             .then((nw)=>{
-                words[i]={key, value: nw, reviewed: true}
+                words[i]={key, value: nw}
                 refresh(!refreshSt)
             })
         }
@@ -74,13 +70,13 @@ export default ({}: Props) => {
             case "Insert":
                 task = Q.executeInsert(query.words).then(
                     newwords => {
-                        setWords([...newwords.map(tagReview), ...words])
+                        setWords([...newwords, ...words])
                     }
                 )
                 break
             case "Filter":
                 task = S.listWords(Q.evalExpr(query.expr) as (w: T.Word)=>boolean)
-                    .then(ws => Q.execStmts(query.stmts, ws.map(tagReview)))
+                    .then(ws => Q.execStmts(query.stmts, ws))
                     .then(setWords)
                 break
         }
@@ -90,7 +86,7 @@ export default ({}: Props) => {
     const nextUnreviewed = () => {
         if (widx !== null){
             for(let i = widx+1; i < words.length; i ++){
-                if (!words[i].reviewed) {
+                if (!words[i].value.reviewed) {
                     setWIdx(i)
                     break
                 }
@@ -102,7 +98,7 @@ export default ({}: Props) => {
     const prevUnreviewed = () => {
         if (widx !== null){
             for(let i = widx-1; i >= 0; i --){
-                if (!words[i].reviewed){
+                if (!words[i].value.reviewed){
                     setWIdx(i)
                     break
                 }
@@ -166,7 +162,7 @@ const Entry = ({
     word, activate, del, review, edit}: 
     {word: T.WordEntry, activate: ()=>void, del: ()=>void, review: ()=>void, edit: ()=>void}) => {
     const {content, tags, description} = word.value
-    const reviewed = word.reviewed
+    const reviewed = word.value.reviewed
     return(
         <tr onClick={activate} className={reviewed ? "reviewed" : ""}>
             <td><div className="content">{<Word ps={content}/>}</div></td>

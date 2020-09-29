@@ -30,7 +30,7 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
     , onClose, review, index, 
     prevUnreviewed: _prevUnreviewed, 
     nextUnreviewed: _nextUnreviewed}: Props)=>{
-    const {value:{content, description, tags, lastreview, reviewtime}, reviewed} = word
+    const {value:{content, description, tags, lastreview, reviewtime, reviewed}} = word
     const {widx, length} = index
 
     const [uncover, setUncover] = useState(false)

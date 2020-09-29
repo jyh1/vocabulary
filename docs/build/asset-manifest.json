@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/vocabulary/static/css/main.b08e4669.chunk.css",
+    "main.js": "/vocabulary/static/js/main.212cb1d0.chunk.js",
+    "main.js.map": "/vocabulary/static/js/main.212cb1d0.chunk.js.map",
+    "runtime-main.js": "/vocabulary/static/js/runtime-main.f525e0cf.js",
+    "runtime-main.js.map": "/vocabulary/static/js/runtime-main.f525e0cf.js.map",
+    "static/css/2.4287e30b.chunk.css": "/vocabulary/static/css/2.4287e30b.chunk.css",
+    "static/js/2.55b8f5d9.chunk.js": "/vocabulary/static/js/2.55b8f5d9.chunk.js",
+    "static/js/2.55b8f5d9.chunk.js.map": "/vocabulary/static/js/2.55b8f5d9.chunk.js.map",
+    "index.html": "/vocabulary/index.html",
+    "precache-manifest.73c0e1a7d2ed7d37eab5baab37d572ea.js": "/vocabulary/precache-manifest.73c0e1a7d2ed7d37eab5baab37d572ea.js",
+    "service-worker.js": "/vocabulary/service-worker.js",
+    "static/css/2.4287e30b.chunk.css.map": "/vocabulary/static/css/2.4287e30b.chunk.css.map",
+    "static/css/main.b08e4669.chunk.css.map": "/vocabulary/static/css/main.b08e4669.chunk.css.map",
+    "static/js/2.55b8f5d9.chunk.js.LICENSE.txt": "/vocabulary/static/js/2.55b8f5d9.chunk.js.LICENSE.txt",
+    "static/media/all.css": "/vocabulary/static/media/fa-solid-900.ee09ad75.woff"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.f525e0cf.js",
+    "static/css/2.4287e30b.chunk.css",
+    "static/js/2.55b8f5d9.chunk.js",
+    "static/css/main.b08e4669.chunk.css",
+    "static/js/main.212cb1d0.chunk.js"
+  ]
+}

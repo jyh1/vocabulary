@@ -12,6 +12,7 @@ export function evalAtom(v: T.Atom, w: T.Word): T.Result {
             switch (v.v) {
                 case "review": return w.reviewtime;
                 case "days": return diffDays(Date.now(), w.lastreview.getTime());
+                case "rand": return Math.random();
                 default: throw Error(`Unknown variable ${v.v}`);
             }
         case T.AtomType.Const:

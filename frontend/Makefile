@@ -1,2 +1,2 @@
 build:
-	npm run build && mv build ../docs
+	npm run build && rm -r ../docs && mv build ../docs

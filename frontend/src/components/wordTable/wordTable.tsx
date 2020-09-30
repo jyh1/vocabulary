@@ -8,8 +8,10 @@ import * as Q from '../../query'
 import WordCard from '../wordcard'
 import Icon from '../icon'
 import {downloadVocabulary} from '../../utils'
+import ReactDragListView from 'react-drag-listview'
 
 type Props = {}
+
 
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.WordEntry[])
@@ -108,7 +110,18 @@ export default ({}: Props) => {
         }
     }
 
+    const dragProps = {
+        onDragEnd(fromIndex: number, toIndex: number) {
+            const item = words.splice(fromIndex, 1)[0];
+            words.splice(toIndex, 0, item);
+            refresh(!refreshSt)
+        },
+        nodeSelector: 'tr',
+        handleSelector: 'a'
+      };
+
     return(
+        <ReactDragListView {...dragProps}>
         <div className={(hide? "hide" : "") + (busy? " busy" : "")}>
         <div className="vocabulary">
             <Header 
@@ -156,6 +169,7 @@ export default ({}: Props) => {
             nextUnreviewed={nextUnreviewed}
         />: <></>}
         </div>
+        </ReactDragListView>
     )
 }
 
@@ -167,7 +181,10 @@ const Entry = ({
     const reviewed = word.value.reviewed
     return(
         <tr onClick={activate} className={reviewed ? "reviewed" : ""}>
-            <td><div className="content">{<Word ps={content}/>}</div></td>
+            <td>
+                <a onClick={e=>e.stopPropagation()}/>
+                <div className="content">{<Word ps={content}/>}</div>
+            </td>
             <td><div className="description">{description}</div></td>
             <td valign="top">
                 <div className="tags">

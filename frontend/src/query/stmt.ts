@@ -9,6 +9,19 @@ async function delStmt(ws: T.WordEntry[]){
     return []
 }
 
+function changeTags(f: (k:T.Tag[])=>(k: string)=>Promise<T.Word>){
+    return function (tags: T.Tag[]): StmtFun{
+        return (ws: T.WordEntry[]) =>{
+            return Promise.all(
+                ws.map(w => f(tags)(w.key).then(v => ({...w, value: v})))
+            )
+        }
+    }
+}
+
+export const pushTags = changeTags(S.pushTags)
+export const popTags = changeTags(S.popTags)
+
 function sortBy<T>(a: T[], f: (e:T)=>number): T[]{
     const values:[number, T][] = a.map(e => [f(e), e])
     values.sort((e1, e2) => e1[0]-e2[0])
@@ -38,6 +51,10 @@ function execStmt(t: T.Stmt): StmtFun{
             return orderbyStmt(t.value)
         case T.StmtType.Slice:
             return sliceStmt(t.start, t.end)
+        case T.StmtType.Pushtags:
+            return pushTags(t.tags)
+        case T.StmtType.Poptags:
+            return popTags(t.tags)
     }
 }
 

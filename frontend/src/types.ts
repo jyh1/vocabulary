@@ -31,7 +31,7 @@ export enum AtomType{
   , Const
 }
 type AtomSkelton<T, V> = {type: ExprType.Atom, t: T, v: V}
-type TagAtm = AtomSkelton<AtomType.Tag, string>
+type TagAtm = AtomSkelton<AtomType.Tag, Tag>
 type VarAtm = AtomSkelton<AtomType.Var, string>
 type BoolConst = AtomSkelton<AtomType.Const, boolean>
 type NumConst = AtomSkelton<AtomType.Const, number>
@@ -77,12 +77,17 @@ export enum StmtType{
     Delete
   , Orderby
   , Slice
+  , Pushtags
+  , Poptags
 }
 export type Delete = {type: StmtType.Delete}
 export type Orderby = {type: StmtType.Orderby, value: Expr}
 export type Slice = {type: StmtType.Slice, start: number | undefined, end: number | undefined}
+type ChangeTags<T> = {type: T, tags: Tag[]}
+export type Pushtags = ChangeTags<StmtType.Pushtags>
+export type Poptags = ChangeTags<StmtType.Poptags>
 export type Stmt = 
-  Delete | Orderby | Slice
+  Delete | Orderby | Slice | Pushtags | Poptags
 
 export type Stmts = Stmt[]
 

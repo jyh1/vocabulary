@@ -25,9 +25,13 @@ export async function addWords(words: T.WordInfo[]){
 }
 
 export async function updateWord<T extends T.Word | undefined>(key: string, f: (w:T.Word)=> T){
-    const newword = f(await vocabulary.getItem(key) as T.Word)
-    if (newword !== undefined) await saveWord(key, newword as T.Word)
-    return newword
+    const oldword = await vocabulary.getItem(key) as T.Word
+    const newword = f(oldword)
+    if (newword !== undefined) {
+        await saveWord(key, newword as T.Word)
+        return newword as T.Word
+    }
+    return oldword
 }
 
 export async function reviewWord(key: string){
@@ -60,6 +64,33 @@ export async function listWords(test ?: (w: T.Word)=>boolean){
     return words
 }
 
+export function updateTags(f: (ts: Set<T.Tag>)=>Set<T.Tag>){
+    const update = (w: T.Word) => {
+        const newtags = [...f(new Set(w.tags)).keys()]
+        if (newtags.length != w.tags.length){
+            w.tags = newtags
+            return w
+        }
+        return undefined
+    }
+    return (key: string) => updateWord(key, update)
+}
+
+export function pushTags(tags: T.Tag[]){
+    const union = (s: Set<T.Tag>) => {
+        for (const t of tags){ s.add(t)}
+        return s
+    }
+    return updateTags(union)
+}
+
+export function popTags(tags: T.Tag[]){
+    const minus = (s: Set<T.Tag>) => {
+        for (const t of tags){ s.delete(t)}
+        return s
+    }
+    return updateTags(minus)
+}
 
 export async function delWord(key: string){
     return await vocabulary.removeItem(key)

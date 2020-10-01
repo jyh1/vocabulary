@@ -34,10 +34,14 @@ enum Token {
     , Orderby
     , Colon
     , NewSession
+    , Pushtags
+    , Poptags
 }
 
 const lexer = buildLexer([
     [true, /^Insert/gi, Token.Insert],
+    [true, /^Pushtags/gi, Token.Pushtags],
+    [true, /^Poptags/gi, Token.Poptags],
     [true, /^clear/gi, Token.NewSession],
     [true, /^Delete/gi, Token.Delete],
     [true, /^Orderby/gi, Token.Orderby],
@@ -137,7 +141,11 @@ const Slice: P<T.Slice> = apply(
     kright(tok(Token.Slice), SliceIndex)
     , ([n1, _, n2]) => ({type: T.StmtType.Slice, start: n1, end: n2})
     )
-const Stmt: P<T.Stmt> = alt(Delete, Orderby, Slice)
+const Pushtags: P<T.Pushtags> = apply(
+    kright(tok(Token.Pushtags), Tags), tags => ({type: T.StmtType.Pushtags, tags}))
+const Poptags: P<T.Poptags> = apply(
+    kright(tok(Token.Poptags), Tags), tags => ({type: T.StmtType.Poptags, tags}))
+const Stmt: P<T.Stmt> = alt(Delete, Orderby, Slice, Pushtags, Poptags)
 const Stmts: P<T.Stmts> = rep_sc(Stmt)
 
 const EmptyExpr: P<T.Expr> = apply(nil(), ()=>T.constant(true))

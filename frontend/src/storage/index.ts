@@ -108,11 +108,11 @@ export async function clearWord(key: string){
         }
         return undefined
     }
-    await updateWord(key, update)
+    return await updateWord(key, update)
 }
 
 export async function clearWords(keys: string[]){
-    await Promise.all(keys.map(clearWord))
+    return await Promise.all(keys.map(clearWord))
 }
 
 export async function newSession(){

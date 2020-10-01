@@ -33,16 +33,16 @@ enum Token {
     , Slice
     , Orderby
     , Colon
-    , NewSession
     , Pushtags
     , Poptags
+    , Clear
 }
 
 const lexer = buildLexer([
     [true, /^Insert/gi, Token.Insert],
+    [true, /^Clear/gi, Token.Clear],
     [true, /^Pushtags/gi, Token.Pushtags],
     [true, /^Poptags/gi, Token.Poptags],
-    [true, /^clear/gi, Token.NewSession],
     [true, /^Delete/gi, Token.Delete],
     [true, /^Orderby/gi, Token.Orderby],
     [true, /^Slice/gi, Token.Slice],
@@ -85,8 +85,6 @@ const Tags: P<T.Tag[]> = list_sc(Tag, nil())
 
 const Insert: P<T.Insert> = 
     kright(tok(Token.Insert), apply(rep_sc(alt(WordInfo, Tags)), words=>({type: "Insert", words})))
-
-const NewSession: P<T.NewSession> = apply(tok(Token.NewSession), ()=> ({type:"NewSession"}))
 
 // Expression
 const Boolean = alt(apply(tok(Token.True), ()=>T.constant(true)), 
@@ -133,6 +131,7 @@ Expr.setPattern(ExprParser)
 
 // Statement parser
 const Delete: P<T.Delete> = apply(tok(Token.Delete), ()=>({type: T.StmtType.Delete}))
+const Clear: P<T.Clear> = apply(tok(Token.Clear), ()=>({type: T.StmtType.Clear}))
 const Orderby: P<T.Orderby> = 
     apply(kright(tok(Token.Orderby), Expr)
     , value =>({type: T.StmtType.Orderby, value}))
@@ -145,7 +144,7 @@ const Pushtags: P<T.Pushtags> = apply(
     kright(tok(Token.Pushtags), Tags), tags => ({type: T.StmtType.Pushtags, tags}))
 const Poptags: P<T.Poptags> = apply(
     kright(tok(Token.Poptags), Tags), tags => ({type: T.StmtType.Poptags, tags}))
-const Stmt: P<T.Stmt> = alt(Delete, Orderby, Slice, Pushtags, Poptags)
+const Stmt: P<T.Stmt> = alt(Delete, Orderby, Slice, Pushtags, Poptags, Clear)
 const Stmts: P<T.Stmts> = rep_sc(Stmt)
 
 const EmptyExpr: P<T.Expr> = apply(nil(), ()=>T.constant(true))
@@ -154,7 +153,6 @@ const MainExpr: P<T.Expr> = alt(Expr, EmptyExpr)
 
 const Query: P<T.Query> = alt(
       Insert
-    , NewSession
     , apply(seq(MainExpr, Stmts), ([expr, stmts]) => ({type: "Filter", expr, stmts}))
     )
 

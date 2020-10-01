@@ -79,15 +79,17 @@ export enum StmtType{
   , Slice
   , Pushtags
   , Poptags
+  , Clear
 }
 export type Delete = {type: StmtType.Delete}
+export type Clear = {type: StmtType.Clear}
 export type Orderby = {type: StmtType.Orderby, value: Expr}
 export type Slice = {type: StmtType.Slice, start: number | undefined, end: number | undefined}
 type ChangeTags<T> = {type: T, tags: Tag[]}
 export type Pushtags = ChangeTags<StmtType.Pushtags>
 export type Poptags = ChangeTags<StmtType.Poptags>
 export type Stmt = 
-  Delete | Orderby | Slice | Pushtags | Poptags
+  Delete | Orderby | Slice | Pushtags | Poptags | Clear
 
 export type Stmts = Stmt[]
 

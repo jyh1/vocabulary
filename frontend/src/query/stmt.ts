@@ -9,6 +9,10 @@ async function delStmt(ws: T.WordEntry[]){
     return []
 }
 
+async function clearStmt(ws: T.WordEntry[]){
+    return Promise.all(ws.map(w => S.clearWord(w.key).then(v => ({...w, value: v}))))
+}
+
 function changeTags(f: (k:T.Tag[])=>(k: string)=>Promise<T.Word>){
     return function (tags: T.Tag[]): StmtFun{
         return (ws: T.WordEntry[]) =>{
@@ -55,6 +59,8 @@ function execStmt(t: T.Stmt): StmtFun{
             return pushTags(t.tags)
         case T.StmtType.Poptags:
             return popTags(t.tags)
+        case T.StmtType.Clear:
+            return clearStmt
     }
 }
 

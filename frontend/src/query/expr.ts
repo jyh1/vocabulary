@@ -10,9 +10,10 @@ export function evalAtom(v: T.Atom, w: T.Word): T.Result {
             return w.tags.includes(v.v);
         case T.AtomType.Var:
             switch (v.v) {
-                case "review": return w.reviewtime;
+                case "totalReview": return w.reviewtime;
                 case "days": return diffDays(Date.now(), w.lastreview.getTime());
                 case "rand": return Math.random();
+                case "reviewed": return w.reviewed;
                 default: throw Error(`Unknown variable ${v.v}`);
             }
         case T.AtomType.Const:

@@ -125,6 +125,17 @@
     opacity: 1;
 }
 
+.hidedef .description{
+    opacity: 0;
+    &:hover{
+        opacity: 1;
+    }
+}
+
+.hidedef .uncover.description{
+    opacity: 1;
+}
+
 .busy::after{
     content: '';
     position: fixed; /* Stay in place */

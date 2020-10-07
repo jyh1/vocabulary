@@ -36,6 +36,7 @@ enum Token {
     , Pushtags
     , Poptags
     , Clear
+    , HideDefinition
 }
 
 const lexer = buildLexer([
@@ -46,6 +47,7 @@ const lexer = buildLexer([
     [true, /^Delete/gi, Token.Delete],
     [true, /^Orderby/gi, Token.Orderby],
     [true, /^Slice/gi, Token.Slice],
+    [true, /^HideDefinition/gi, Token.HideDefinition],
     [true, /^true/gi, Token.True],
     [true, /^false/gi, Token.False],
     [true, /^\d+(\.\d+)?/g, Token.Number],
@@ -85,6 +87,9 @@ const Tags: P<T.Tag[]> = list_sc(Tag, nil())
 
 const Insert: P<T.Insert> = 
     kright(tok(Token.Insert), apply(rep_sc(alt(WordInfo, Tags)), words=>({type: "Insert", words})))
+
+const HideDef: P<T.HideDefinition> = 
+    apply(tok(Token.HideDefinition), ()=>({type: "HideDefinition"}))
 
 // Expression
 const Boolean = alt(apply(tok(Token.True), ()=>T.constant(true)), 
@@ -153,6 +158,7 @@ const MainExpr: P<T.Expr> = alt(Expr, EmptyExpr)
 
 const Query: P<T.Query> = alt(
       Insert
+    , HideDef
     , apply(seq(MainExpr, Stmts), ([expr, stmts]) => ({type: "Filter", expr, stmts}))
     )
 

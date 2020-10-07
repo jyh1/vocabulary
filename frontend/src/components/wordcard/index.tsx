@@ -99,7 +99,7 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
                     <div className="tags">
                         {tags.map((t, i)=><span key={i}>{t}</span>)}
                     </div>
-                    <div className="description">
+                    <div className={"description" + (uncover ? " uncover": "")} >
                         <Description desc={description}/>
                     </div>
                     <div className="buttons">

@@ -73,6 +73,10 @@ export type NewSession = {
   type: "NewSession"
 }
 
+export type HideDefinition = {
+  type: "HideDefinition"
+}
+
 export enum StmtType{
     Delete
   , Orderby
@@ -100,6 +104,6 @@ export type Filter = {
   , stmts: Stmts
 }
 
-export type Query = Insert | Filter | NewSession
+export type Query = Insert | Filter | NewSession | HideDefinition
 
 export type Result = number | boolean

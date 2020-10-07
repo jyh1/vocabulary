@@ -16,6 +16,7 @@ type Props = {}
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.WordEntry[])
     const [hide, setHide] = useState(false)
+    const [hideDef, setHideDef] = useState(false)
     const [widx, _setWIdx] = useState(null as number | null)
     const [refreshSt, refresh] = useState(false)
     const [editing, setEditing] = useState(null as number | null)
@@ -83,6 +84,9 @@ export default ({}: Props) => {
                 break
             case "NewSession":
                 task = S.newSession().then(init)
+            case "HideDefinition":
+                setHideDef(!hideDef)
+                task = new Promise((resolve) => resolve())
         }
         task.then(()=>setBusy(false))
     }
@@ -122,7 +126,7 @@ export default ({}: Props) => {
 
     return(
         <ReactDragListView {...dragProps}>
-        <div className={(hide? "hide" : "") + (busy? " busy" : "")}>
+        <div className={(hide? "hide" : "") + (busy? " busy" : "") + (hideDef? " hidedef" : "")}>
         <div className="vocabulary">
             <Header 
                 addWord={editing === null ? addWord : editWord(editing)}

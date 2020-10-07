@@ -1,6 +1,6 @@
 import { Parser } from 'typescript-parsec';
 import { buildLexer, expectEOF, expectSingleResult } from 'typescript-parsec';
-import { opt_sc, apply, kmid, rep_sc, seq, str, tok } from 'typescript-parsec';
+import { opt_sc, apply, kmid, rep_sc, seq, alt, tok } from 'typescript-parsec';
 import * as T from '../types'
 
 enum Token {
@@ -23,8 +23,10 @@ const Text: P<string> = apply(rep_sc(Character), v=>v.join(''))
 
 const Annot: P<string> = kmid(tok(Token.LParen), Text, tok(Token.RParen))
 
+const Desc: P<string> = alt(Character, Annot)
+
 const Piece: P<T.WordPiece> = 
-    apply(seq(Character, opt_sc(Annot)),
+    apply(seq(Desc, opt_sc(Annot)),
         ([t, anno]) => (anno ? {text: t, kana: anno}: t))
 
 export const Pieces: P<T.WordPieces> = 

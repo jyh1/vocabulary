@@ -1,8 +1,13 @@
 
 import * as T from './types'
 
+function optParen(t: string){
+    if (t.length > 1) return "(" + t + ")"
+    return t
+}
+
 export function serializeWordPieces(ps: T.WordPieces): string {
-    return ps.map(p => typeof p==="string"? p : (p.text + "(" + p.kana + ")")).join('')
+    return ps.map(p => typeof p==="string"? p : (optParen(p.text) + "(" + p.kana + ")")).join('')
 }
 
 function printWord(w: T.WordInfo): string{

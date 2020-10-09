@@ -1,7 +1,7 @@
 import * as T from '../types';
 
 function diffDays(n1: number, n2: number) {
-    return Math.round((n1 - n2) / (1000 * 60 * 60 * 24));
+    return (n1 - n2) / (1000 * 60 * 60 * 24);
 }
 
 export function evalAtom(v: T.Atom, w: T.Word): T.Result {

@@ -9,6 +9,7 @@ import WordCard from '../wordcard'
 import Icon from '../icon'
 import {downloadVocabulary} from '../../utils'
 import ReactDragListView from 'react-drag-listview'
+import wordcard from '../wordcard';
 
 type Props = {}
 
@@ -29,6 +30,7 @@ export default ({}: Props) => {
     const [editing, setEditing] = useState(null as number | null)
     const [vocabSize, setVocabSize] = useState(0)
     const [busy, setBusy] = useState(false)
+    const [buffer, setBuffer] = useState(100)
 
     useEffect(()=>{S.vocabularySize().then(setVocabSize)})
 
@@ -129,7 +131,6 @@ export default ({}: Props) => {
         handleSelector: 'a'
       };
     return(
-        <ReactDragListView {...dragProps}>
         <div className={
             (mask & CONTENT? "hide" : "") + 
             (busy? " busy" : "") + 
@@ -149,6 +150,7 @@ export default ({}: Props) => {
             <div className="table_info">
                 {words.length} out of {vocabSize} words selected.
             </div>
+            <ReactDragListView {...dragProps}>
             <table className="word-table">
                 <thead>
                     <tr>
@@ -158,7 +160,7 @@ export default ({}: Props) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {words.map((w, i) => (
+                    {words.slice(0, buffer).map((w, i) => (
                         <Entry 
                             word={w} 
                             key={w.key}
@@ -170,6 +172,13 @@ export default ({}: Props) => {
                     }
                 </tbody>
             </table>
+            </ReactDragListView>
+            {buffer < words.length ? ( 
+                <div className="load" onClick={()=>{setBuffer(buffer+50)}}>
+                    Load More
+                </div>)
+                : <React.Fragment/>
+            }
         </div>
         {(widx!==null)?
         <WordCard
@@ -184,7 +193,6 @@ export default ({}: Props) => {
             autoplay={autoplay}
         />: <></>}
         </div>
-        </ReactDragListView>
     )
 }
 

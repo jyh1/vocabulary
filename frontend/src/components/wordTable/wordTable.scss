@@ -148,3 +148,16 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
     overflow: auto;
 }
+
+.vocabulary{
+    .load{
+        text-align: center;
+        border: 2px solid #cbcbcb;
+        margin-top: 2px;
+        &:hover{
+            background-color: #cbcbcb;
+        }
+        border-radius: 10px;
+        cursor: pointer;
+    }
+}

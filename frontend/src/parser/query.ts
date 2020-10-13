@@ -37,6 +37,7 @@ enum Token {
     , Poptags
     , Clear
     , HideDefinition
+    , AutoPlay
 }
 
 const lexer = buildLexer([
@@ -48,6 +49,7 @@ const lexer = buildLexer([
     [true, /^Orderby/gi, Token.Orderby],
     [true, /^Slice/gi, Token.Slice],
     [true, /^HideDefinition/gi, Token.HideDefinition],
+    [true, /^AutoPlay/gi, Token.AutoPlay],
     [true, /^true/gi, Token.True],
     [true, /^false/gi, Token.False],
     [true, /^\d+(\.\d+)?/g, Token.Number],
@@ -90,6 +92,9 @@ const Insert: P<T.Insert> =
 
 const HideDef: P<T.HideDefinition> = 
     apply(tok(Token.HideDefinition), ()=>({type: "HideDefinition"}))
+
+const AutoPlay: P<T.AutoPlay> = 
+    apply(tok(Token.AutoPlay), ()=>({type: "AutoPlay"}))
 
 // Expression
 const Boolean = alt(apply(tok(Token.True), ()=>T.constant(true)), 
@@ -159,6 +164,7 @@ const MainExpr: P<T.Expr> = alt(Expr, EmptyExpr)
 const Query: P<T.Query> = alt(
       Insert
     , HideDef
+    , AutoPlay
     , apply(seq(MainExpr, Stmts), ([expr, stmts]) => ({type: "Filter", expr, stmts}))
     )
 

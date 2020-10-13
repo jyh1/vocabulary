@@ -58,7 +58,9 @@ class Recorder {
                 this.record(key)
             }
             this.recorder.stop()
+            return true
         }
+        return false
     }
 }
 

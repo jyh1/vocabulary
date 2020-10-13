@@ -77,6 +77,10 @@ export type HideDefinition = {
   type: "HideDefinition"
 }
 
+export type AutoPlay = {
+  type: "AutoPlay"
+}
+
 export enum StmtType{
     Delete
   , Orderby
@@ -104,6 +108,6 @@ export type Filter = {
   , stmts: Stmts
 }
 
-export type Query = Insert | Filter | NewSession | HideDefinition
+export type Query = Insert | Filter | NewSession | HideDefinition | AutoPlay
 
 export type Result = number | boolean

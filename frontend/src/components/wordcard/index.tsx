@@ -6,6 +6,7 @@ import './wordcard.scss'
 import Content, {Description} from '../word'
 import * as A from '../../audio'
 import Icon from '../icon'
+import { playAudio } from '../../audio'
 
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
     , index: {widx: number, length: number}
     , prevUnreviewed: ()=>void
     , nextUnreviewed: ()=>void
+    , autoplay: boolean
 }
 
 export default (props: Props) => {
@@ -28,7 +30,7 @@ export default (props: Props) => {
 }
 
 const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
-    , onClose, review, index, 
+    , onClose, review, index, autoplay,
     prevUnreviewed: _prevUnreviewed, 
     nextUnreviewed: _nextUnreviewed}: Props)=>{
     const {key, value:{content, description, tags, lastreview, reviewtime, reviewed}} = word
@@ -41,7 +43,9 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
     const disableCls = (test: boolean, cls: string) => cls + (test ? " disabled" :  "")
     
     useEffect(()=>{
-        A.recorder.startNew(key)
+        if (!A.recorder.startNew(key) && autoplay){
+            A.playAudio(key)
+        }
     }, [key])
 
     const changeAction= (act: ()=>void)=> (()=> 

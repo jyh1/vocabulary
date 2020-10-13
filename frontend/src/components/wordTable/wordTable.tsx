@@ -16,6 +16,7 @@ type Props = {}
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.WordEntry[])
     const [hide, setHide] = useState(false)
+    const [autoplay, setAutoplay] = useState(true)
     const [hideDef, setHideDef] = useState(false)
     const [widx, _setWIdx] = useState(null as number | null)
     const [refreshSt, refresh] = useState(false)
@@ -84,9 +85,15 @@ export default ({}: Props) => {
                 break
             case "NewSession":
                 task = S.newSession().then(init)
+                break
             case "HideDefinition":
                 setHideDef(!hideDef)
                 task = new Promise((resolve) => resolve())
+                break
+            case "AutoPlay":
+                setAutoplay(!autoplay)
+                task = new Promise((resolve) => resolve())
+                break
         }
         task.then(()=>setBusy(false))
     }
@@ -171,6 +178,7 @@ export default ({}: Props) => {
             index={{widx, length: words.length}}
             prevUnreviewed={prevUnreviewed}
             nextUnreviewed={nextUnreviewed}
+            autoplay={autoplay}
         />: <></>}
         </div>
         </ReactDragListView>

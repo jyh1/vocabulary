@@ -15,6 +15,8 @@ type Props = {
     , toggleHide: ()=>void
     , query: (q: T.Query)=>void
     , export: () => void
+    , autoplay: boolean
+    , toggleAP: ()=>void
 }
 
 type AddWord = (w: T.WordInfo)=>Promise<void>
@@ -34,6 +36,9 @@ const Buttons = (props: Props) =>{
             <NewWord {...props}/>
             <button onClick={props.toggleHide}><Icon icon="eye-slash"/></button>
             <button onClick={props.export}><Icon icon="file-download"/> </button>
+            <button onClick={props.toggleAP}>
+                <Icon icon={props.autoplay ? "pause" : "play"}/>
+             </button>
         </div>
     )
 }

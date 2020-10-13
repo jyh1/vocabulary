@@ -92,10 +92,6 @@ export default ({}: Props) => {
             case "NewSession":
                 task = S.newSession().then(init)
                 break
-            case "AutoPlay":
-                setAutoplay(!autoplay)
-                task = new Promise((resolve) => resolve())
-                break
         }
         task.then(()=>setBusy(false))
     }
@@ -147,6 +143,8 @@ export default ({}: Props) => {
                 toggleHide={()=>nextMask(undefined)}
                 query={executeQuery}
                 export={()=>downloadVocabulary(words)}
+                autoplay={autoplay}
+                toggleAP={()=>setAutoplay(!autoplay)}
             />
             <div className="table_info">
                 {words.length} out of {vocabSize} words selected.

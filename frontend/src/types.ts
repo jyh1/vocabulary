@@ -74,10 +74,6 @@ export type NewSession = {
 }
 
 
-export type AutoPlay = {
-  type: "AutoPlay"
-}
-
 export enum StmtType{
     Delete
   , Orderby
@@ -105,6 +101,6 @@ export type Filter = {
   , stmts: Stmts
 }
 
-export type Query = Insert | Filter | NewSession | AutoPlay
+export type Query = Insert | Filter | NewSession
 
 export type Result = number | boolean

@@ -6,7 +6,6 @@ import './wordcard.scss'
 import Content, {Description} from '../word'
 import * as A from '../../audio'
 import Icon from '../icon'
-import { playAudio } from '../../audio'
 
 
 type Props = {
@@ -38,13 +37,29 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
 
     const [uncover, setUncover] = useState(false)
 
+    const [recording, setRecording] = useState(false)
+    
+
     const hasPrev = widx > 0
     const hasNext = widx < length - 1
     const disableCls = (test: boolean, cls: string) => cls + (test ? " disabled" :  "")
     
+    const startRecording = () => {
+        if (!recording) A.recorder.record(key).then(()=>setRecording(true))
+    }
+
+    const doneRecording = () => {
+        if (recording){
+            setRecording(false)
+            A.recorder.save()
+        }
+    }
+
+    const play = () => {if (!recording) A.playAudio(key)}
+
     useEffect(()=>{
         if (!A.recorder.startNew(key) && autoplay){
-            A.playAudio(key)
+            play()
         }
     }, [key])
 
@@ -88,13 +103,13 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
                 nextUnreviewed()
                 break
             case "r":
-                A.recorder.record(key)
+                startRecording()
                 break
             case "t":
-                A.recorder.save()
+                doneRecording()
                 break
             case "f":
-                A.playAudio(key)
+                play()
                 break
         }
     }
@@ -134,8 +149,9 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
                 <div className={disableCls(hasNext, "nav-right")} onClick={nextWord} title="D">
                     <Icon icon="chevron-right"/>
                 </div>
-                <div className ="index">
+                <div className ="index">                    
                     {widx+1} / {length}
+                    <span className={"mic" + (recording ? " active" : "")}><Icon icon="microphone"/></span>
                 </div>
             </div>
         </div>

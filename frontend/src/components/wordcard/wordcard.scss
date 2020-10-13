@@ -1,5 +1,11 @@
 $button-color: rgba(0, 0, 0, 0.409);
 
+@keyframes blink-animation {
+    to {
+      visibility: hidden;
+    }
+}
+
 .wordcard-wrapper{
     border-radius: 4px;
     margin: 0 auto;
@@ -45,6 +51,16 @@ $button-color: rgba(0, 0, 0, 0.409);
             font-style: italic;
             font-size: 90%;
             color: #4e4e4e;
+            .mic{
+                padding-left: 10px;
+                font-size: 90%;
+                color: #d00;
+                display: none;
+                &.active{
+                    display: inline;
+                    animation: blink-animation 0.8s steps(5, start) infinite;
+                }
+            }
         }
         .nav-left, .nav-right{
             display: flex;

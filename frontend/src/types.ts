@@ -73,9 +73,6 @@ export type NewSession = {
   type: "NewSession"
 }
 
-export type HideDefinition = {
-  type: "HideDefinition"
-}
 
 export type AutoPlay = {
   type: "AutoPlay"
@@ -108,6 +105,6 @@ export type Filter = {
   , stmts: Stmts
 }
 
-export type Query = Insert | Filter | NewSession | HideDefinition | AutoPlay
+export type Query = Insert | Filter | NewSession | AutoPlay
 
 export type Result = number | boolean

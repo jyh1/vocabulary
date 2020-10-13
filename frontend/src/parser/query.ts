@@ -36,7 +36,6 @@ enum Token {
     , Pushtags
     , Poptags
     , Clear
-    , HideDefinition
     , AutoPlay
 }
 
@@ -48,7 +47,6 @@ const lexer = buildLexer([
     [true, /^Delete/gi, Token.Delete],
     [true, /^Orderby/gi, Token.Orderby],
     [true, /^Slice/gi, Token.Slice],
-    [true, /^HideDefinition/gi, Token.HideDefinition],
     [true, /^AutoPlay/gi, Token.AutoPlay],
     [true, /^true/gi, Token.True],
     [true, /^false/gi, Token.False],
@@ -89,9 +87,6 @@ const Tags: P<T.Tag[]> = list_sc(Tag, nil())
 
 const Insert: P<T.Insert> = 
     kright(tok(Token.Insert), apply(rep_sc(alt(WordInfo, Tags)), words=>({type: "Insert", words})))
-
-const HideDef: P<T.HideDefinition> = 
-    apply(tok(Token.HideDefinition), ()=>({type: "HideDefinition"}))
 
 const AutoPlay: P<T.AutoPlay> = 
     apply(tok(Token.AutoPlay), ()=>({type: "AutoPlay"}))
@@ -163,7 +158,6 @@ const MainExpr: P<T.Expr> = alt(Expr, EmptyExpr)
 
 const Query: P<T.Query> = alt(
       Insert
-    , HideDef
     , AutoPlay
     , apply(seq(MainExpr, Stmts), ([expr, stmts]) => ({type: "Filter", expr, stmts}))
     )

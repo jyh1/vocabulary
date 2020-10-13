@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useReducer} from 'react';
 import * as T from '../../types'
 import Word from '../word'
 import Header from './header'
@@ -12,12 +12,18 @@ import ReactDragListView from 'react-drag-listview'
 
 type Props = {}
 
+function counter(n: number){
+    const reducer = (s: number, q: number | undefined) => 
+        q === undefined ? (s + 1) % n : q
+    return reducer
+}
+
+const [CONTENT, DESCRIPT] = [1, 2]
 
 export default ({}: Props) => {
     const [words, setWords] = useState([] as T.WordEntry[])
-    const [hide, setHide] = useState(false)
-    const [autoplay, setAutoplay] = useState(true)
-    const [hideDef, setHideDef] = useState(false)
+    const [autoplay, setAutoplay] = useState(false)
+    const [mask, nextMask] = useReducer(counter(4), 0)
     const [widx, _setWIdx] = useState(null as number | null)
     const [refreshSt, refresh] = useState(false)
     const [editing, setEditing] = useState(null as number | null)
@@ -86,10 +92,6 @@ export default ({}: Props) => {
             case "NewSession":
                 task = S.newSession().then(init)
                 break
-            case "HideDefinition":
-                setHideDef(!hideDef)
-                task = new Promise((resolve) => resolve())
-                break
             case "AutoPlay":
                 setAutoplay(!autoplay)
                 task = new Promise((resolve) => resolve())
@@ -130,16 +132,19 @@ export default ({}: Props) => {
         nodeSelector: 'tr',
         handleSelector: 'a'
       };
-
     return(
         <ReactDragListView {...dragProps}>
-        <div className={(hide? "hide" : "") + (busy? " busy" : "") + (hideDef? " hidedef" : "")}>
+        <div className={
+            (mask & CONTENT? "hide" : "") + 
+            (busy? " busy" : "") + 
+            (mask & DESCRIPT? " hidedef" : "")}
+        >
         <div className="vocabulary">
             <Header 
                 addWord={editing === null ? addWord : editWord(editing)}
                 init={editing === null ? null : words[editing].value}
                 cancel={()=>setEditing(null)}
-                toggleHide={()=>setHide(!hide)}
+                toggleHide={()=>nextMask(undefined)}
                 query={executeQuery}
                 export={()=>downloadVocabulary(words)}
             />

@@ -1,6 +1,7 @@
 
 import localforage from 'localforage'
 import * as T from '../types'
+export * from './audio'
 
 const vocabulary = localforage.createInstance({
     name: "vocabulary"

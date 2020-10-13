@@ -4,6 +4,7 @@ import Modal from '../modal'
 import * as T from '../../types'
 import './wordcard.scss'
 import Content, {Description} from '../word'
+import * as A from '../../audio'
 import Icon from '../icon'
 
 
@@ -30,7 +31,7 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
     , onClose, review, index, 
     prevUnreviewed: _prevUnreviewed, 
     nextUnreviewed: _nextUnreviewed}: Props)=>{
-    const {value:{content, description, tags, lastreview, reviewtime, reviewed}} = word
+    const {key, value:{content, description, tags, lastreview, reviewtime, reviewed}} = word
     const {widx, length} = index
 
     const [uncover, setUncover] = useState(false)
@@ -39,7 +40,15 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
     const hasNext = widx < length - 1
     const disableCls = (test: boolean, cls: string) => cls + (test ? " disabled" :  "")
     
-    const changeAction= (act: ()=>void)=> (()=>{setUncover(false); act()})
+    useEffect(()=>{
+        A.recorder.startNew(key)
+    }, [key])
+
+    const changeAction= (act: ()=>void)=> (()=> 
+        {
+            setUncover(false)
+            act()
+        })
     const prevWord = changeAction(_prevWord)
     const nextWord = changeAction(_nextWord)
     const nextUnreviewed = changeAction(_nextUnreviewed)
@@ -73,6 +82,15 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
                 break
             case "e":
                 nextUnreviewed()
+                break
+            case "r":
+                A.recorder.record(key)
+                break
+            case "t":
+                A.recorder.save()
+                break
+            case "f":
+                A.playAudio(key)
                 break
         }
     }

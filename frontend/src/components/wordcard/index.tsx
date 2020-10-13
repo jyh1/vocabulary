@@ -102,11 +102,8 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
             case "e":
                 nextUnreviewed()
                 break
-            case "r":
-                startRecording()
-                break
-            case "t":
-                doneRecording()
+            case "p":
+                if (recording) doneRecording(); else startRecording()
                 break
             case "f":
                 play()

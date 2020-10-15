@@ -168,6 +168,7 @@ export default ({}: Props) => {
                             del={delWord(i)}
                             review={()=>review(i)}
                             edit={()=>setEditing(i)}
+                            idx={i}
                         />))
                     }
                 </tbody>
@@ -198,8 +199,11 @@ export default ({}: Props) => {
 
 
 const Entry = ({
-    word, activate, del, review, edit}: 
-    {word: T.WordEntry, activate: ()=>void, del: ()=>void, review: ()=>void, edit: ()=>void}) => {
+    word, activate, del, review, edit, idx}: 
+    {word: T.WordEntry, activate: ()=>void
+        , del: ()=>void, review: ()=>void, edit: ()=>void
+        ,idx: number
+    }) => {
     const {content, tags, description} = word.value
     const reviewed = word.value.reviewed
     return(
@@ -215,15 +219,18 @@ const Entry = ({
                 </div>
             </td>
             <td onClick={e=>e.stopPropagation()}>
-                <Controls del={del} review={review} reviewed={reviewed} edit={edit}/>
+                <Controls idx={idx} del={del} review={review} reviewed={reviewed} edit={edit}/>
             </td>
         </tr>
     )
 }
 
 
-const Controls = ({del, review, reviewed, edit}
-                : {del: ()=>void, review: ()=>void, reviewed: boolean, edit: ()=>void}) => 
+const Controls = ({del, review, reviewed, edit, idx}
+                : {del: ()=>void, review: ()=>void
+                    , reviewed: boolean, edit: ()=>void
+                    , idx: number
+                }) => 
 {
     return(
         <div className="controls">
@@ -240,6 +247,7 @@ const Controls = ({del, review, reviewed, edit}
                 onDoubleClick={del}
                 ><Icon icon="trash-alt"/>
             </button>
+            <span className="rownumber">{idx}</span>
         </div>
     )
 }

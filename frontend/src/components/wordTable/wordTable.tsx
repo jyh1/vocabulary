@@ -7,9 +7,8 @@ import * as S from '../../storage'
 import * as Q from '../../query'
 import WordCard from '../wordcard'
 import Icon from '../icon'
-import {downloadVocabulary} from '../../utils'
+import {downloadVocabulary, download} from '../../utils'
 import ReactDragListView from 'react-drag-listview'
-import wordcard from '../wordcard';
 
 type Props = {}
 
@@ -93,6 +92,11 @@ export default ({}: Props) => {
                 break
             case "NewSession":
                 task = S.newSession().then(init)
+                break
+            case "Dump":
+                S.dumpDb()
+                .then(s => download(new Date().toISOString()+".txt", s))
+                task = new Promise((resolve)=>resolve())
                 break
         }
         task.then(()=>setBusy(false))

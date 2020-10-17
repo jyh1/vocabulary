@@ -73,6 +73,9 @@ export type NewSession = {
   type: "NewSession"
 }
 
+export type Dump = {
+  type: "Dump"
+}
 
 export enum StmtType{
     Delete
@@ -101,6 +104,6 @@ export type Filter = {
   , stmts: Stmts
 }
 
-export type Query = Insert | Filter | NewSession
+export type Query = Insert | Filter | NewSession | Dump
 
 export type Result = number | boolean

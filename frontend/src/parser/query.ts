@@ -36,10 +36,12 @@ enum Token {
     , Pushtags
     , Poptags
     , Clear
+    , Dump
 }
 
 const lexer = buildLexer([
     [true, /^Insert/gi, Token.Insert],
+    [true, /^Dump/gi, Token.Dump],
     [true, /^Clear/gi, Token.Clear],
     [true, /^Pushtags/gi, Token.Pushtags],
     [true, /^Poptags/gi, Token.Poptags],
@@ -85,6 +87,9 @@ const Tags: P<T.Tag[]> = list_sc(Tag, nil())
 
 const Insert: P<T.Insert> = 
     kright(tok(Token.Insert), apply(rep_sc(alt(WordInfo, Tags)), words=>({type: "Insert", words})))
+
+const Dump: P<T.Dump> = 
+    apply(tok(Token.Dump), ()=>({type: "Dump"}))
 
 // Expression
 const Boolean = alt(apply(tok(Token.True), ()=>T.constant(true)), 
@@ -153,6 +158,7 @@ const MainExpr: P<T.Expr> = alt(Expr, EmptyExpr)
 
 const Query: P<T.Query> = alt(
       Insert
+    , Dump
     , apply(seq(MainExpr, Stmts), ([expr, stmts]) => ({type: "Filter", expr, stmts}))
     )
 

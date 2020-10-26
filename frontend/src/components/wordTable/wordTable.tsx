@@ -251,7 +251,7 @@ const Controls = ({del, review, reviewed, edit, idx}
                 onDoubleClick={del}
                 ><Icon icon="trash-alt"/>
             </button>
-            <span className="rownumber">{idx}</span>
+            <span className="rownumber">{idx+1}</span>
         </div>
     )
 }

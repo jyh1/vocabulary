@@ -56,6 +56,7 @@ export enum Op {
 , Greater
 , LessEq
 , GreaterEq
+, Power
 }
 export type Binop = {type: ExprType.Binop, op: Op, l: Expr, r: Expr}
 export function makeBin(op: Op): (l: Expr, r: Expr)=>Binop{

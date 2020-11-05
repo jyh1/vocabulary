@@ -34,6 +34,7 @@ export function evalBin(op: T.Op, l: T.Result, r: T.Result): T.Result {
             case T.Op.GreaterEq: return l >= r;
             case T.Op.Less: return l < r;
             case T.Op.Greater: return l > r;
+            case T.Op.Power: return Math.pow(l, r)
         }
     }
     if (typeof l === "boolean" && typeof r === "boolean") {

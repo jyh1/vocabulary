@@ -19,6 +19,7 @@ enum Token {
     , True
     , False
     , Number
+    , Power
     , Add
     , Minus
     , Divide
@@ -53,6 +54,7 @@ const lexer = buildLexer([
     [true, /^\d+(\.\d+)?/g, Token.Number],
     [true, /^[&]{2}/g, Token.And],
     [true, /^[|]{2}/g, Token.Or],
+    [true, /^[\^]/g, Token.Power],
     [true, /^[+]/g, Token.Add],
     [true, /^[-]/g, Token.Minus],
     [true, /^[*]/g, Token.Multiply],
@@ -102,6 +104,7 @@ const TagExpr = apply(Tag, t=>T.makeVal(T.AtomType.Tag as T.AtomType.Tag, t))
 const Atom: P<T.Atom> = alt(TagExpr, Constant, Variable)
 type BinopInfo = [Token, (l: T.Expr, r: T.Expr)=>T.Expr]
 const BinopTable: BinopInfo[][] = [
+    [[Token.Power, T.makeBin(T.Op.Power)]],
     [[Token.Multiply, T.makeBin(T.Op.Multiply)], [Token.Divide, T.makeBin(T.Op.Divide)]],
     [[Token.Add, T.makeBin(T.Op.Add)], [Token.Minus, T.makeBin(T.Op.Minus)]],
     [

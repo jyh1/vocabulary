@@ -6,6 +6,7 @@ import './wordcard.scss'
 import Content, {Description} from '../word'
 import * as A from '../../audio'
 import Icon from '../icon'
+import {getWordStem} from '../../utils'
 
 
 type Props = {
@@ -108,6 +109,12 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
             case "f":
                 play()
                 break
+            case "l":
+                window.open(`https://forvo.com/word/${getWordStem(word.value.content)}/#ja`, 'forvowindow',"height=600,width=600")
+                break
+            case "j":
+                window.open(`https://jisho.org/search/${getWordStem(word.value.content)}`, 'jishowindow')
+            
         }
     }
 

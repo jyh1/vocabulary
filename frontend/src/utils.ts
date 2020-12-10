@@ -10,6 +10,10 @@ export function serializeWordPieces(ps: T.WordPieces): string {
     return ps.map(p => typeof p==="string"? p : (optParen(p.text) + "(" + p.kana + ")")).join('')
 }
 
+export function getWordStem(ps: T.WordPieces): string {
+    return ps.map(p => typeof p==="string"? p : p.text).join('')
+}
+
 function printWord(w: T.WordInfo): string{
     const tags = w.tags.map(t => '#'+t).join(' ')
     return [tags, serializeWordPieces(w.content), w.description, tags].join('\n')

@@ -114,7 +114,8 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
                 break
             case "j":
                 window.open(`https://jisho.org/search/${getWordStem(word.value.content)}`, 'jishowindow')
-            
+            case 'q':
+                A.speak(word.value.description)
         }
     }
 

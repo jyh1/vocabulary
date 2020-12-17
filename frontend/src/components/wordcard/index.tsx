@@ -65,7 +65,7 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
     }, [key])
 
     const changeAction= (act: ()=>void)=> (()=> 
-        {
+        {  
             setUncover(false)
             act()
         })
@@ -114,8 +114,35 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
                 break
             case "j":
                 window.open(`https://jisho.org/search/${getWordStem(word.value.content)}`, 'jishowindow')
-            case 'q':
+                break
+            case 'x':
                 A.speak(word.value.description)
+                break
+        }
+    }
+
+    const handleMouseEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+        switch (e.button){
+            case 0:
+                // left click
+                play()
+                break
+            case 4:
+                // scroll button right
+                review()
+                break
+        }
+    }
+
+    const handleWheelEvent = (e: React.WheelEvent<HTMLDivElement>) => {
+        if (e.deltaY > 0){
+            if (e.deltaY < 10) {
+                setUncover(true)
+                A.speak(word.value.description)
+            }
+
+        } else {
+            if (e.deltaY > -10) nextWord()
         }
     }
 
@@ -123,6 +150,8 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
         <div 
             className={reviewed? "wordcard-wrapper reviewed" : "wordcard-wrapper"}
             onKeyDown={handleKeydown}
+            onMouseDown={handleMouseEvent}
+            onWheel={handleWheelEvent}
             tabIndex={0}
             ref={topRef}
         >

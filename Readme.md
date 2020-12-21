@@ -4,12 +4,14 @@
 
 [Main Website](https://jyh1.github.io/vocabulary)
 
-A simple web application for learning new words. 
+A simple web application for helping memorize vocabulary.
 
 ###  1.1. <a name='WhatitdoesTL-DR'></a>What it does (TL-DR)
-- Maintaining a vocabulary dataset in the browser local storage
-- Providing a flashcard-like interface for viewing and learning new words
-- Providing a simple query language for operations on the vocabulary dataset
+1. Maintaining a vocabulary dataset in the browser local storage
+2. Providing a flashcard-like interface for viewing and learning new words
+3. Providing a simple query language for operations on the vocabulary dataset
+
+### Table of Content
 
 <!-- vscode-markdown-toc -->
 * 1. [Introduction](#Introduction)

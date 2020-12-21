@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "dd1ef9433206d187f45fc58751a7a0d3",
+    "revision": "0be7a52fc52a7a890959f6a08de231e0",
     "url": "/vocabulary/index.html"
   },
   {
-    "revision": "89a08197a518f5f90841",
+    "revision": "3b1a9e863c35e2322e58",
     "url": "/vocabulary/static/css/2.4287e30b.chunk.css"
   },
   {
-    "revision": "acfc837e7b32953c230f",
-    "url": "/vocabulary/static/css/main.b08e4669.chunk.css"
+    "revision": "c07124fdc6fd0525957a",
+    "url": "/vocabulary/static/css/main.3834dc6d.chunk.css"
   },
   {
-    "revision": "89a08197a518f5f90841",
-    "url": "/vocabulary/static/js/2.55b8f5d9.chunk.js"
+    "revision": "3b1a9e863c35e2322e58",
+    "url": "/vocabulary/static/js/2.d60a834b.chunk.js"
   },
   {
     "revision": "849657740f66d00720db130cc1e94c97",
-    "url": "/vocabulary/static/js/2.55b8f5d9.chunk.js.LICENSE.txt"
+    "url": "/vocabulary/static/js/2.d60a834b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "acfc837e7b32953c230f",
-    "url": "/vocabulary/static/js/main.212cb1d0.chunk.js"
+    "revision": "c07124fdc6fd0525957a",
+    "url": "/vocabulary/static/js/main.989fb985.chunk.js"
   },
   {
     "revision": "10a18afd8848cc903e0d",

@@ -251,6 +251,11 @@ function deserialize(value) {
     }
 }
 
+export async function deSerializeBlobArray(arr){
+    return await Promise.all(arr.map(deserialize))
+    
+}
+
 var localforageSerializer = {
     serialize: serialize,
     deserialize: deserialize,

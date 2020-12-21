@@ -98,7 +98,7 @@ export function popTags(tags: T.Tag[]){
     return updateTags(minus)
 }
 
-export async function delWord(key: string){
+export async function delVocabWord(key: string){
     return await vocabulary.removeItem(key)
 }
 

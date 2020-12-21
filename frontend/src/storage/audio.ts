@@ -25,3 +25,7 @@ export async function getAudio(key: string){
     }
     return []
 }
+
+export async function delAudioWord(key: string){
+    return await audio.removeItem(key)
+}

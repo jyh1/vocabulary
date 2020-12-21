@@ -40,6 +40,7 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
 
     const [recording, setRecording] = useState(false)
     
+    const [mouseNav, setMouseNav] = useState(false)
 
     const hasPrev = widx > 0
     const hasNext = widx < length - 1
@@ -118,10 +119,13 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
             case 'x':
                 A.speak(word.value.description)
                 break
+            case 'm':
+                setMouseNav(!mouseNav)
         }
     }
 
     const handleMouseEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+        if (!mouseNav) return
         switch (e.button){
             case 0:
                 // left click
@@ -135,6 +139,7 @@ const Card = ({word, prevWord: _prevWord, nextWord: _nextWord
     }
 
     const handleWheelEvent = (e: React.WheelEvent<HTMLDivElement>) => {
+        if (!mouseNav) return
         if (e.deltaY > 0){
             if (e.deltaY < 10) {
                 setUncover(true)

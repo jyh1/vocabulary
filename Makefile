@@ -1,4 +1,4 @@
-prepare:
+init:
 	cd frontend; npm install
 
 dev: frontend

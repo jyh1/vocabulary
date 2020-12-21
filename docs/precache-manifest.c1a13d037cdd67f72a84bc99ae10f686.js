@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "0be7a52fc52a7a890959f6a08de231e0",
+    "revision": "ed3a3993e6670ec21e567c673810b74b",
     "url": "/vocabulary/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vocabulary/static/css/2.4287e30b.chunk.css"
   },
   {
-    "revision": "c07124fdc6fd0525957a",
+    "revision": "3fb46fa37c09ff0729bb",
     "url": "/vocabulary/static/css/main.3834dc6d.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/vocabulary/static/js/2.d60a834b.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "c07124fdc6fd0525957a",
-    "url": "/vocabulary/static/js/main.989fb985.chunk.js"
+    "revision": "3fb46fa37c09ff0729bb",
+    "url": "/vocabulary/static/js/main.382f1f1a.chunk.js"
   },
   {
     "revision": "10a18afd8848cc903e0d",

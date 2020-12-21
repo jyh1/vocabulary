@@ -298,7 +298,7 @@ make init
 make dev
 ```
 
-####  2.1.3. <a name='Buildproductionapp'></a>Build production app
+####  2.1.3. <a name='Buildproductionapp'></a>Build production app at /docs
 ```
 make build
 ```

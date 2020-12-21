@@ -163,7 +163,7 @@ Main source code: `src/parser/query.ts`.
 | Var | `$` `[a-zA-Z]+` |
 | Tag | `#` `[a-zA-Z]+` |
 | Atom | `Num` \| `Bool` \| `Var` \| `Tag` |
-| Op |  `+` \| `-` \| `*` \| `/` \| `^` \| `&&` \| `||` \| `==` |
+| Op |  `+` \| `-` \| `*` \| `/` \| `^` \| `&&` \| `\|\|` \| `==` |
 |Expr| `Atom` \| `Expr` `Op` `Expr` \| `(` `Expr` `)` | 
 
 ###### Semantic
